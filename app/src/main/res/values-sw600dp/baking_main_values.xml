@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="baking_main_gridlayout_row">3</integer>
+</resources>
