@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<GridLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.app.AlertController.RecycleListView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recipe_recycle"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"/>
 
     <ProgressBar
         android:layout_height="30dp"
         android:layout_width="30dp"
         android:layout_gravity="center"/>
-</FrameLayout>
+</GridLayout>
