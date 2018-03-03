@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import com.example.android.baking.db.RecipeContract;
 
 public class PicRecycleAdapter extends RecyclerView.Adapter<PicRecycleAdapter.MyPicRecycleHolder> {
 
+    private String TAG = "PicRecycleAdapter";
+    private boolean DBG = true;
     private Cursor mCursor;
     private RecipeClickHandle recipeClickHandle;
 
@@ -49,8 +52,9 @@ public class PicRecycleAdapter extends RecyclerView.Adapter<PicRecycleAdapter.My
         String ingredients = mCursor.getString(
                 mCursor.getColumnIndex(RecipeContract.RecipeInfo.COLUMN_INGREDIENTS));
         if(ingredients == null){
-
+            if (DBG) Log.e(TAG,"it is wrong,ingredients is null");
         }
+
         String[] s = ingredients.split("###");
         String sInte = "";
         for (int i=0;i<s.length;i++) {
