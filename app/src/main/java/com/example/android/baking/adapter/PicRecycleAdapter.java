@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.example.android.baking.R;
 import com.example.android.baking.db.RecipeContract;
+import com.example.android.baking.util.FormRecipe;
+import com.example.android.baking.util.ReadFromJsonString;
 
 /**
  * Created by milkdz on 2018/2/28.
@@ -23,6 +25,8 @@ public class PicRecycleAdapter extends RecyclerView.Adapter<PicRecycleAdapter.My
     private boolean DBG = true;
     private Cursor mCursor;
     private RecipeClickHandle recipeClickHandle;
+    private Context context;
+
 
     public PicRecycleAdapter(RecipeClickHandle recipeClickHandle){
         this.recipeClickHandle = recipeClickHandle;
@@ -30,7 +34,7 @@ public class PicRecycleAdapter extends RecyclerView.Adapter<PicRecycleAdapter.My
 
     @Override
     public MyPicRecycleHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
+        context = parent.getContext();
         int layoutList = R.layout.fragment_card_food_recipe;
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(layoutList,parent,false);
@@ -47,6 +51,7 @@ public class PicRecycleAdapter extends RecyclerView.Adapter<PicRecycleAdapter.My
 
         String number = mCursor.getString(
                 mCursor.getColumnIndex(RecipeContract.RecipeInfo.COLUMN_SERVINGS));
+        number = context.getResources().getString(R.string.main_activity_show_serving) + number;
         holder.numberTextView.setText(number);
 
         String ingredients = mCursor.getString(
@@ -55,12 +60,9 @@ public class PicRecycleAdapter extends RecyclerView.Adapter<PicRecycleAdapter.My
             if (DBG) Log.e(TAG,"it is wrong,ingredients is null");
         }
 
-        String[] s = ingredients.split("###");
-        String sInte = "";
-        for (int i=0;i<s.length;i++) {
-            sInte = sInte + RecipeContract.QUERY_INGREDIENTS[i] + "\t:\t" + s[i] + '\n';
-        }
-        holder.ingredientTextView.setText(sInte);
+        if(DBG) Log.d(TAG,"get ingredients are " + ingredients);
+        String singrdientArr = FormRecipe.formIngredients(ingredients);
+        holder.ingredientTextView.setText(singrdientArr);
     }
 
     @Override
@@ -84,7 +86,7 @@ public class PicRecycleAdapter extends RecyclerView.Adapter<PicRecycleAdapter.My
             cardView.setOnClickListener(this);
             nameTextView = itemView.findViewById(R.id.food_name_text_view);
             numberTextView = itemView.findViewById(R.id.food_serving_text_view);
-            ingredientTextView = itemView.findViewById(R.id.food_step_textView);
+            ingredientTextView = itemView.findViewById(R.id.food_ingredients_textView);
         }
 
         @Override
