@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">Baking</string>
 
-    <!--  -->
+    <!-- main UI  -->
+    <string name="main_activity_show_serving">servings ：</string>
+
 
     <!-- used for designed -->
     <string name="designed_show_name_recipe">蛋糕</string>

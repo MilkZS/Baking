@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class RecipeDBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "Recipe.db";
-    private static final int VERSION = 1;
+    private static final int VERSION = 2;
 
     public RecipeDBHelper(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
@@ -29,7 +29,8 @@ public class RecipeDBHelper extends SQLiteOpenHelper {
                 + RecipeContract.RecipeInfo.COLUMN_NAME + ","
                 + RecipeContract.RecipeInfo.COLUMN_STEP +  ","
                 + RecipeContract.RecipeInfo.COLUMN_SERVINGS  + ","
-                + RecipeContract.RecipeInfo.COLUMN_INGREDIENTS
+                + RecipeContract.RecipeInfo.COLUMN_INGREDIENTS + ","
+                + RecipeContract.RecipeInfo.COLUMN_JUDGE
                 + " ); ";
     }
 

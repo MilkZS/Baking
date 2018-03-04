@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.android.baking" >
+    package="com.example.android.baking">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -10,8 +10,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
-        <activity android:name=".BakingMainActivity" >
+        android:theme="@style/AppTheme">
+        <activity android:name=".BakingMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,14 +19,16 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".sync.RecipeIntentService"
-            android:exported="false"/>
+        <service
+            android:name=".sync.RecipeIntentService"
+            android:exported="false" />
 
         <provider
             android:name=".db.RecipeProvider"
             android:authorities="com.example.android.baking"
-            android:exported="false"/>
+            android:exported="false" />
 
+        <activity android:name=".IntegredientActivity"></activity>
     </application>
 
 </manifest>
