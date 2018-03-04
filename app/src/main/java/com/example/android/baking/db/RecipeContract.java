@@ -36,7 +36,8 @@ public class RecipeContract {
             RecipeInfo.COLUMN_SERVINGS,
             RecipeInfo.COLUMN_NAME,
             RecipeInfo.COLUMN_INGREDIENTS,
-            RecipeInfo.COLUMN_JUDGE
+            RecipeInfo.COLUMN_JUDGE,
+            RecipeInfo.COLUMN_STEP
     };
 
     public static final String[] RECIPE_DETAIL_UI_COL = {
