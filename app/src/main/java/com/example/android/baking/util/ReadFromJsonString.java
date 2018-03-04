@@ -20,16 +20,16 @@ public class ReadFromJsonString {
     private static String TAG = "ReadFromJsonString";
     private static boolean DBG = true;
 
-    public static String DIVIDE_TYPE = "-";
-    public static String DIVIDE_CONTENT = "#";
+    public static String DIVIDE_TYPE = "_TYPE_";
+    public static String DIVIDE_CONTENT = "_CONTENT_";
 
     private static String QUERY_INGREDIENTS = "ingredients";
 
     public static ContentValues[] buildContentValuesForJson(String jsonString) {
         try {
-            Log.d(TAG,"jsonString is : == > " + jsonString);
+            Log.d(TAG, "jsonString is : == > " + jsonString);
             //JSONArray jsonArray = new JSONArray(jsonString);
-           // JSONObject recipeJson = new JSONObject(jsonString);
+            // JSONObject recipeJson = new JSONObject(jsonString);
             JSONArray recipeArray = new JSONArray(jsonString);//recipeJson.getJSONArray("");
             if (DBG) Log.d(TAG, "recipeArray = " + recipeArray);
             ContentValues[] contentValuesArray = new ContentValues[recipeArray.length()];
@@ -45,9 +45,10 @@ public class ReadFromJsonString {
                         jsonObject.getString(BaseInfo.RECIPE_SERVINGS));
                 contentValues.put(RecipeContract.RecipeInfo.COLUMN_INGREDIENTS,
                         queryInfo(jsonObject, RecipeContract.QUERY_INGREDIENTS));
+                contentValues.put(RecipeContract.RecipeInfo.COLUMN_JUDGE, "1");
                 //contentValues.put(RecipeContract.RecipeInfo.COLUMN_STEP,
-                 //       queryInfo(jsonObject.getString(BaseInfo.RECIPE_STEP),
-                   //             BaseInfo.RECIPE_MODE_STEP));
+                //       queryInfo(jsonObject.getString(BaseInfo.RECIPE_STEP),
+                //             BaseInfo.RECIPE_MODE_STEP));
                 contentValuesArray[i] = contentValues;
             }
             return contentValuesArray;
@@ -57,23 +58,27 @@ public class ReadFromJsonString {
         return null;
     }
 
-    public static String queryInfo(JSONObject jsonObject,String[] QUERY_ARRAY) {
+    public static String queryInfo(JSONObject jsonObject, String[] QUERY_ARRAY) {
 
-       // Log.d(TAG,"query info jsonString is " + jsonString);
+        // Log.d(TAG,"query info jsonString is " + jsonString);
         try {
             JSONArray jsonArray = jsonObject.getJSONArray(BaseInfo.RECIPE_INGREDIENTS);//new JSONArray(jsonString);
             String sRe = "";
-            for(int i=0;i<jsonArray.length();i++){
+            for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject sObject = jsonArray.getJSONObject(i);
-                sRe = sRe + sObject.getString(QUERY_ARRAY[0]);
-                for (int j=1;j<QUERY_ARRAY.length;j++){
-                    sRe = sRe + DIVIDE_CONTENT + sObject.getString(QUERY_ARRAY[j]);
+                //sRe = sRe + sObject.getString(QUERY_ARRAY[0]);
+                for (int j = 0; j < QUERY_ARRAY.length; j++) {
+                    if (j == 0) {
+                        sRe = sRe + sObject.getString(QUERY_ARRAY[j]);
+                    } else {
+                        sRe = sRe + DIVIDE_CONTENT + sObject.getString(QUERY_ARRAY[j]);
+                    }
                 }
-                if (i > 0){
-                    sRe = sRe + DIVIDE_TYPE ;
+                if(i != jsonArray.length() - 1){
+                    sRe = sRe + DIVIDE_TYPE;
                 }
             }
-            Log.d(TAG,"query info string array is " + sRe);
+            Log.d(TAG, "query info string array is " + sRe);
             return sRe;
         } catch (JSONException e) {
             e.printStackTrace();

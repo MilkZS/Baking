@@ -26,9 +26,7 @@ public class BakingMainActivity extends AppCompatActivity
 
     private RecyclerView recyclerView;
     private PicRecycleAdapter picRecycleAdapter;
-
     private int mPosition = RecyclerView.NO_POSITION;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,11 +39,13 @@ public class BakingMainActivity extends AppCompatActivity
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setHasFixedSize(true);
 
+
         picRecycleAdapter = new PicRecycleAdapter(this);
         recyclerView.setAdapter(picRecycleAdapter);
-
         getSupportLoaderManager().initLoader(0,null,this);
         RecipeThread.initialize(this);
+
+
     }
 
     @Override
@@ -57,7 +57,7 @@ public class BakingMainActivity extends AppCompatActivity
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Uri foodUri = RecipeContract.CONTENT_BASE;
         String order = RecipeContract.RecipeInfo.COLUMN_ID + SQLBaseInfo.SORT_AES;
-        return new CursorLoader(this,foodUri,null,null,null,order);
+        return new CursorLoader(this,foodUri,RecipeContract.RECIPE_MAIN_UI_COL,null,null,order);
     }
 
     @Override

@@ -23,9 +23,11 @@ public class RecipeSyncTask {
 
     synchronized public static  void syncRecipe(Context context){
         try {
-            URL url = NetWorkUtil.buildUrlFromHttp(BaseInfo.REMOTE_HTTP);
+           // URL url = NetWorkUtil.buildUrlFromHttp(BaseInfo.REMOTE_HTTP);
+            URL url = new URL(BaseInfo.REMOTE_HTTP);
             Log.d(TAG,"url + ==> " + url);
             String sJson = NetWorkUtil.getResponseFromHttpUrl(url);
+            Log.d(TAG,"after url is json string == > " + sJson);
             ContentValues[] contentValues = ReadFromJsonString.buildContentValuesForJson(sJson);
             if(contentValues != null){
                 context.getContentResolver().delete(RecipeContract.CONTENT_BASE,null,null);
