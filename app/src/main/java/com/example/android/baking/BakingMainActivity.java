@@ -39,13 +39,10 @@ public class BakingMainActivity extends AppCompatActivity
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setHasFixedSize(true);
 
-
         picRecycleAdapter = new PicRecycleAdapter(this);
         recyclerView.setAdapter(picRecycleAdapter);
         getSupportLoaderManager().initLoader(0,null,this);
         RecipeThread.initialize(this);
-
-
     }
 
     @Override

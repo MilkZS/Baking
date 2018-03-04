@@ -44,11 +44,12 @@ public class ReadFromJsonString {
                 contentValues.put(RecipeContract.RecipeInfo.COLUMN_SERVINGS,
                         jsonObject.getString(BaseInfo.RECIPE_SERVINGS));
                 contentValues.put(RecipeContract.RecipeInfo.COLUMN_INGREDIENTS,
-                        queryInfo(jsonObject, RecipeContract.QUERY_INGREDIENTS));
+                        queryInfo(jsonObject, RecipeContract.QUERY_INGREDIENTS,
+                                BaseInfo.RECIPE_INGREDIENTS));
+                contentValues.put(RecipeContract.RecipeInfo.COLUMN_STEP,
+                        queryInfo(jsonObject,RecipeContract.QUERY_STEP,
+                                BaseInfo.RECIPE_STEP));
                 contentValues.put(RecipeContract.RecipeInfo.COLUMN_JUDGE, "1");
-                //contentValues.put(RecipeContract.RecipeInfo.COLUMN_STEP,
-                //       queryInfo(jsonObject.getString(BaseInfo.RECIPE_STEP),
-                //             BaseInfo.RECIPE_MODE_STEP));
                 contentValuesArray[i] = contentValues;
             }
             return contentValuesArray;
@@ -58,15 +59,13 @@ public class ReadFromJsonString {
         return null;
     }
 
-    public static String queryInfo(JSONObject jsonObject, String[] QUERY_ARRAY) {
+    private static String queryInfo(JSONObject jsonObject, String[] QUERY_ARRAY,String query) {
 
-        // Log.d(TAG,"query info jsonString is " + jsonString);
         try {
-            JSONArray jsonArray = jsonObject.getJSONArray(BaseInfo.RECIPE_INGREDIENTS);//new JSONArray(jsonString);
+            JSONArray jsonArray = jsonObject.getJSONArray(query);
             String sRe = "";
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject sObject = jsonArray.getJSONObject(i);
-                //sRe = sRe + sObject.getString(QUERY_ARRAY[0]);
                 for (int j = 0; j < QUERY_ARRAY.length; j++) {
                     if (j == 0) {
                         sRe = sRe + sObject.getString(QUERY_ARRAY[j]);
@@ -85,17 +84,4 @@ public class ReadFromJsonString {
         }
         return null;
     }
-/*
-    public static String queryInfo(String jsonString, int mode) {
-        switch (mode) {
-            case BaseInfo.RECIPE_MODE_INGREDIENTS: {
-               return queryInfo(jsonString,RecipeContract.QUERY_INGREDIENTS);
-            }
-            case BaseInfo.RECIPE_MODE_STEP: {
-                return queryInfo(jsonString,RecipeContract.QUERY_STEP);
-            }
-        }
-        return null;
-    }
-*/
 }
