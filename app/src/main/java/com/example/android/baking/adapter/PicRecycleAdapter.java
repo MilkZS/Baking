@@ -1,6 +1,7 @@
 package com.example.android.baking.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -8,9 +9,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.android.baking.R;
+import com.example.android.baking.StepsActivity;
+import com.example.android.baking.base.RecipeSteps;
 import com.example.android.baking.db.RecipeContract;
 import com.example.android.baking.util.FormRecipe;
 import com.example.android.baking.util.ReadFromJsonString;
@@ -61,8 +65,20 @@ public class PicRecycleAdapter extends RecyclerView.Adapter<PicRecycleAdapter.My
         }
 
         if(DBG) Log.d(TAG,"get ingredients are " + ingredients);
-        String singrdientArr = FormRecipe.formIngredients(ingredients);
-        holder.ingredientTextView.setText(singrdientArr);
+        String singleIngredientArr = FormRecipe.formIngredients(ingredients);
+        holder.ingredientTextView.setText(singleIngredientArr);
+
+        final String steps = mCursor.getString(
+                mCursor.getColumnIndex(RecipeContract.RecipeInfo.COLUMN_STEP));
+        holder.button_step.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RecipeSteps recipeSteps = FormRecipe.addArrayList(steps);
+                Intent intent = new Intent(context, StepsActivity.class);
+                intent.putExtra(Intent.EXTRA_TEXT,recipeSteps);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -79,6 +95,7 @@ public class PicRecycleAdapter extends RecyclerView.Adapter<PicRecycleAdapter.My
         private TextView nameTextView;
         private TextView numberTextView;
         private TextView ingredientTextView;
+        private Button button_step;
 
         public MyPicRecycleHolder(View itemView) {
             super(itemView);
@@ -87,11 +104,16 @@ public class PicRecycleAdapter extends RecyclerView.Adapter<PicRecycleAdapter.My
             nameTextView = itemView.findViewById(R.id.food_name_text_view);
             numberTextView = itemView.findViewById(R.id.food_serving_text_view);
             ingredientTextView = itemView.findViewById(R.id.food_ingredients_textView);
+            button_step = itemView.findViewById(R.id.steps_button);
         }
 
         @Override
         public void onClick(View v) {
+            int adapterPosition = getAdapterPosition();
+            mCursor.moveToPosition(adapterPosition);
 
+            String recipeId = mCursor.getString(mCursor.getColumnIndex(RecipeContract.RecipeInfo.COLUMN_ID));
+            recipeClickHandle.onClick(recipeId);
         }
     }
 
