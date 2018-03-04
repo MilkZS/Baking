@@ -15,6 +15,7 @@ public class RecipeContract {
     public static final Uri CONTENT_BASE_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     public static final String RECIPE_INFO = "recipe";
 
+    /** content://com.example.android.baking/recipe */
     public static final Uri CONTENT_BASE = CONTENT_BASE_URI.buildUpon().appendPath(RECIPE_INFO).build();
 
     public static final class RecipeInfo implements BaseColumns {
@@ -26,6 +27,7 @@ public class RecipeContract {
         public static String COLUMN_INGREDIENTS = "recipe_material";
         public static String COLUMN_STEP = "recipe_step_word";
         public static String COLUMN_SERVINGS = "recipe_servings";
+        public static String COLUMN_JUDGE = "recipe_judge";
     }
 
     public static final String[] RECIPE_MAIN_UI_COL = {
@@ -33,7 +35,8 @@ public class RecipeContract {
             RecipeInfo._ID,
             RecipeInfo.COLUMN_SERVINGS,
             RecipeInfo.COLUMN_NAME,
-            RecipeInfo.COLUMN_INGREDIENTS
+            RecipeInfo.COLUMN_INGREDIENTS,
+            RecipeInfo.COLUMN_JUDGE
     };
 
     public static final String[] RECIPE_DETAIL_UI_COL = {
@@ -59,4 +62,7 @@ public class RecipeContract {
             BaseInfo.RECIPE_STEP_THUMBNAIL
     };
 
+    public static String buildSelect(){
+        return RecipeInfo.COLUMN_JUDGE + "=1";
+    }
 }
