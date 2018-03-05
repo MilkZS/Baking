@@ -1,10 +1,12 @@
 package com.example.android.baking.base;
 
+import java.io.Serializable;
+
 /**
  * Created by milkdz on 2018/3/4.
  */
 
-public class RecipeStep {
+public class RecipeStep implements Serializable {
 
     private String id;
     private String sVideo;
