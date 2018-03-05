@@ -30,7 +30,7 @@ public class PicRecycleAdapter extends RecyclerView.Adapter<PicRecycleAdapter.My
     private Cursor mCursor;
     private RecipeClickHandle recipeClickHandle;
     private Context context;
-
+    public static String INTENT_LIST = "recipe_step_list";
 
     public PicRecycleAdapter(RecipeClickHandle recipeClickHandle){
         this.recipeClickHandle = recipeClickHandle;
@@ -75,7 +75,7 @@ public class PicRecycleAdapter extends RecyclerView.Adapter<PicRecycleAdapter.My
             public void onClick(View v) {
                 RecipeSteps recipeSteps = FormRecipe.addArrayList(steps);
                 Intent intent = new Intent(context, StepsActivity.class);
-                intent.putExtra(Intent.EXTRA_TEXT,recipeSteps);
+                intent.putExtra(INTENT_LIST,recipeSteps);
                 context.startActivity(intent);
             }
         });
