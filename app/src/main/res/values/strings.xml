@@ -5,6 +5,8 @@
     <!-- main UI  -->
     <string name="main_activity_show_serving">servings ：</string>
 
+    <!-- child UI -->
+    <string name="child_activity_show_prepare">preparation</string>
 
     <!-- used for designed -->
     <string name="designed_show_name_recipe">蛋糕</string>
@@ -12,7 +14,7 @@
     <string name="designed_button_step">详细步骤</string>
     <string name="designed_button_materials">准备原料</string>
     <string name="designed_show_serving">可用餐人数：8</string>
-
+    <string name="designed_text_view_prepare">Prepare</string>
     <!-- values of fragment_card_food_recipe -->
     <!-- TextView -->
     <string name="text_view_layout_width">120dp</string>
