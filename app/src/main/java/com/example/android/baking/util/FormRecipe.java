@@ -48,11 +48,14 @@ public class FormRecipe {
             recipeStep.setId(ss[0]);
             recipeStep.setsTitle(ss[1]);
             recipeStep.setsDescription(ss[2]);
-            if(!ss[3].equals("")){
+            if( ss.length>3 && !ss[3].equals("")){
                 recipeStep.setsVideo(ss[3]);
-            }else if (!ss[4].equals("")){
+            }else if (ss.length>4 && !ss[4].equals("")){
                 recipeStep.setsVideo(ss[4]);
+            }else {
+                recipeStep.setsVideo("");
             }
+
             recipeStepArrayList.add(recipeStep);
         }
         recipeSteps.setRecipeStepArrayList(recipeStepArrayList);
