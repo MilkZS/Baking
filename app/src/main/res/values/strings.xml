@@ -9,12 +9,16 @@
     <string name="child_activity_show_prepare">preparation</string>
 
     <!-- used for designed -->
+    <!-- main activity -->
     <string name="designed_show_name_recipe">蛋糕</string>
     <string name="designed_button_video">相关视频</string>
     <string name="designed_button_step">详细步骤</string>
     <string name="designed_button_materials">准备原料</string>
     <string name="designed_show_serving">可用餐人数：8</string>
     <string name="designed_text_view_prepare">Prepare</string>
+    <!-- child activity -->
+    <string name="designed_text_view_prepare_content">1. salt  2.     3.Aasfasvasvasvasvasvsavas</string>>
+
     <!-- values of fragment_card_food_recipe -->
     <!-- TextView -->
     <string name="text_view_layout_width">120dp</string>
