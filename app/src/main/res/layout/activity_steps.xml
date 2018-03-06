@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ListView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.example.android.baking.StepsActivity">
 
     <TextView
@@ -14,11 +15,12 @@
     <TextView
         android:id="@+id/prepare_text_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        tools:text="@string/designed_text_view_prepare_content"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recipe_step_recycle"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"/>
 
-</ListView>
+</LinearLayout>
