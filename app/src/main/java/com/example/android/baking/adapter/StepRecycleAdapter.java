@@ -1,6 +1,7 @@
 package com.example.android.baking.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.android.baking.R;
+import com.example.android.baking.VideoActivity;
 import com.example.android.baking.base.RecipeStep;
 
 import java.util.ArrayList;
@@ -21,6 +23,10 @@ public class StepRecycleAdapter extends RecyclerView.Adapter<StepRecycleAdapter.
     private ArrayList<RecipeStep> recipeStepArrayList;
 
     private Context context;
+
+    public StepRecycleAdapter(ArrayList<RecipeStep> recipeStepArrayList) {
+        this.recipeStepArrayList = recipeStepArrayList;
+    }
 
     @Override
     public MyStepRecycleHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -56,12 +62,8 @@ public class StepRecycleAdapter extends RecyclerView.Adapter<StepRecycleAdapter.
 
         @Override
         public void onClick(View view) {
-
+            Intent intent = new Intent(context, VideoActivity.class);
+            
         }
-    }
-
-    public void swapData(ArrayList<RecipeStep> arrayList){
-        recipeStepArrayList = arrayList;
-        notifyDataSetChanged();
     }
 }
