@@ -26,6 +26,9 @@ public interface BaseInfo {
 
     String RECIPE_SERVINGS = "servings";
 
+    String INTENT_LIST = "recipe_step_list";
+    String INTENT_LIST_INDEX = "recipe_step_list_index";
+
     //chose mode to dis step or ingredient
     int RECIPE_MODE_INGREDIENTS = 1;
     int RECIPE_MODE_STEP = 2;
