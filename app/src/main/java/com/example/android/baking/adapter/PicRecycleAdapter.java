@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.android.baking.R;
 import com.example.android.baking.StepsActivity;
+import com.example.android.baking.base.BaseInfo;
 import com.example.android.baking.base.RecipeSteps;
 import com.example.android.baking.db.RecipeContract;
 import com.example.android.baking.util.FormRecipe;
@@ -30,7 +31,7 @@ public class PicRecycleAdapter extends RecyclerView.Adapter<PicRecycleAdapter.My
     private Cursor mCursor;
     private RecipeClickHandle recipeClickHandle;
     private Context context;
-    public static String INTENT_LIST = "recipe_step_list";
+
 
     public PicRecycleAdapter(RecipeClickHandle recipeClickHandle){
         this.recipeClickHandle = recipeClickHandle;
@@ -75,7 +76,7 @@ public class PicRecycleAdapter extends RecyclerView.Adapter<PicRecycleAdapter.My
             public void onClick(View v) {
                 RecipeSteps recipeSteps = FormRecipe.addArrayList(steps);
                 Intent intent = new Intent(context, StepsActivity.class);
-                intent.putExtra(INTENT_LIST,recipeSteps);
+                intent.putExtra(BaseInfo.INTENT_LIST,recipeSteps);
                 context.startActivity(intent);
             }
         });
