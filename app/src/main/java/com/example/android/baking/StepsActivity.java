@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.example.android.baking.adapter.PicRecycleAdapter;
 import com.example.android.baking.adapter.StepRecycleAdapter;
+import com.example.android.baking.base.BaseInfo;
 import com.example.android.baking.base.RecipeStep;
 import com.example.android.baking.base.RecipeSteps;
 
@@ -27,7 +28,7 @@ public class StepsActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
 
         Intent intent = getIntent();
-        RecipeSteps recipeSteps = (RecipeSteps) intent.getSerializableExtra(PicRecycleAdapter.INTENT_LIST);
+        RecipeSteps recipeSteps = (RecipeSteps) intent.getSerializableExtra(BaseInfo.INTENT_LIST);
         ArrayList<RecipeStep> recipeStepArrayList = recipeSteps.getRecipeStepArrayList();
         StepRecycleAdapter stepRecycleAdapter = new StepRecycleAdapter(recipeStepArrayList);
 
