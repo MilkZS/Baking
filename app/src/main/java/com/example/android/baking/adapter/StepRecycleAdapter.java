@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.android.baking.R;
 import com.example.android.baking.VideoActivity;
+import com.example.android.baking.base.BaseInfo;
 import com.example.android.baking.base.RecipeStep;
 
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 public class StepRecycleAdapter extends RecyclerView.Adapter<StepRecycleAdapter.MyStepRecycleHolder> {
 
     private ArrayList<RecipeStep> recipeStepArrayList;
-
+    private int position = 0;
     private Context context;
 
     public StepRecycleAdapter(ArrayList<RecipeStep> recipeStepArrayList) {
@@ -39,6 +40,7 @@ public class StepRecycleAdapter extends RecyclerView.Adapter<StepRecycleAdapter.
 
     @Override
     public void onBindViewHolder(MyStepRecycleHolder holder, int position) {
+        this.position = position;
         RecipeStep recipeStep = recipeStepArrayList.get(position);
         holder.short_description.setText(recipeStep.getsTitle());
     }
@@ -63,7 +65,9 @@ public class StepRecycleAdapter extends RecyclerView.Adapter<StepRecycleAdapter.
         @Override
         public void onClick(View view) {
             Intent intent = new Intent(context, VideoActivity.class);
-            
+            intent.putExtra(BaseInfo.INTENT_LIST,recipeStepArrayList);
+            intent.putExtra(BaseInfo.INTENT_LIST_INDEX,position);
+            context.startActivity(intent);
         }
     }
 }
