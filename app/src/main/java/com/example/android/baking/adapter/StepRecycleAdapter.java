@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.baking.R;
 import com.example.android.baking.VideoActivity;
@@ -24,9 +25,11 @@ public class StepRecycleAdapter extends RecyclerView.Adapter<StepRecycleAdapter.
     private ArrayList<RecipeStep> recipeStepArrayList;
     private int position = 0;
     private Context context;
+    VideoClick videoClick;
 
-    public StepRecycleAdapter(ArrayList<RecipeStep> recipeStepArrayList) {
+    public StepRecycleAdapter(ArrayList<RecipeStep> recipeStepArrayList,VideoClick videoClick) {
         this.recipeStepArrayList = recipeStepArrayList;
+        this.videoClick = videoClick;
     }
 
     @Override
@@ -60,14 +63,16 @@ public class StepRecycleAdapter extends RecyclerView.Adapter<StepRecycleAdapter.
         public MyStepRecycleHolder(View itemView) {
             super(itemView);
             short_description = itemView.findViewById(R.id.short_description);
+            short_description.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(context, VideoActivity.class);
-            intent.putExtra(BaseInfo.INTENT_LIST,recipeStepArrayList);
-            intent.putExtra(BaseInfo.INTENT_LIST_INDEX,position);
-            context.startActivity(intent);
+            videoClick.onClick(position);
         }
+    }
+
+    public interface VideoClick{
+       void  onClick(int position);
     }
 }
