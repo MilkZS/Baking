@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.example.android.baking.adapter.PicRecycleAdapter;
 import com.example.android.baking.adapter.StepRecycleAdapter;
@@ -14,8 +16,11 @@ import com.example.android.baking.base.RecipeSteps;
 
 import java.util.ArrayList;
 
-public class StepsActivity extends AppCompatActivity {
+public class StepsActivity extends AppCompatActivity implements StepRecycleAdapter.VideoClick{
 
+    private String TAG = "StepsActivity";
+    private ArrayList<RecipeStep> recipeStepArrayList;
+    private RecipeSteps recipeSteps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +33,22 @@ public class StepsActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
 
         Intent intent = getIntent();
-        RecipeSteps recipeSteps = (RecipeSteps) intent.getSerializableExtra(BaseInfo.INTENT_LIST);
-        ArrayList<RecipeStep> recipeStepArrayList = recipeSteps.getRecipeStepArrayList();
-        StepRecycleAdapter stepRecycleAdapter = new StepRecycleAdapter(recipeStepArrayList);
+        if(intent.hasExtra(BaseInfo.INTENT_LIST)) {
 
-        recyclerView.setAdapter(stepRecycleAdapter);
+            recipeSteps = (RecipeSteps) intent.getSerializableExtra(BaseInfo.INTENT_LIST);
+            recipeStepArrayList = recipeSteps.getRecipeStepArrayList();
+            StepRecycleAdapter stepRecycleAdapter = new StepRecycleAdapter(recipeStepArrayList, this);
 
+            recyclerView.setAdapter(stepRecycleAdapter);
+        }
+    }
+
+    @Override
+    public void onClick(int position) {
+        Log.d(TAG,"it is click ");
+        Intent intent = new Intent(this, VideoActivity.class);
+        intent.putExtra(BaseInfo.INTENT_RECIPE,recipeSteps);
+        intent.putExtra(BaseInfo.INTENT_LIST_INDEX,position);
+        startActivity(intent);
     }
 }
