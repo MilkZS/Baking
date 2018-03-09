@@ -26,10 +26,13 @@ public interface BaseInfo {
 
     String RECIPE_SERVINGS = "servings";
 
+    String INTENT_TITLE = "recipe_title";
     String INTENT_RECIPE = "recipe_video";
     String INTENT_LIST = "recipe_step_list";
     String INTENT_LIST_INDEX = "recipe_step_list_index";
+    String INTENT_PREPARE = "recipe_prepare";
 
+    String ACTIVITY_POSITION = "video_position";
 
     //chose mode to dis step or ingredient
     int RECIPE_MODE_INGREDIENTS = 1;
