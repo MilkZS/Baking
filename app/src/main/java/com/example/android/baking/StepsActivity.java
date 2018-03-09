@@ -47,6 +47,6 @@ public class StepsActivity extends AppCompatActivity implements StepRecycleAdapt
         Intent intent = new Intent(this, VideoActivity.class);
         intent.putExtra(BaseInfo.INTENT_RECIPE,recipeSteps);
         intent.putExtra(BaseInfo.INTENT_LIST_INDEX,position);
-        startActivity(intent);
+        this.startActivity(intent);
     }
 }
