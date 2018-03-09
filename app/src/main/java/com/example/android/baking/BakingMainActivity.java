@@ -14,7 +14,6 @@ import android.support.v7.widget.RecyclerView;
 import com.example.android.baking.adapter.PicRecycleAdapter;
 import com.example.android.baking.db.RecipeContract;
 import com.example.android.baking.db.SQLBaseInfo;
-import com.example.android.baking.sync.RecipeSyncTask;
 import com.example.android.baking.sync.RecipeThread;
 
 /**
@@ -61,7 +60,7 @@ public class BakingMainActivity extends AppCompatActivity
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         picRecycleAdapter.swapCursor(data);
         if (mPosition == RecyclerView.NO_POSITION) {
-            mPosition = 0;//recyclerView.getChildAdapterPosition(view);
+            mPosition = 0;
         }
         recyclerView.smoothScrollToPosition(mPosition);
     }
