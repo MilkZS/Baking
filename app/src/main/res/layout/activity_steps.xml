@@ -10,13 +10,22 @@
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:text="@string/child_activity_show_prepare"/>
+        android:text="@string/child_activity_show_prepare"
+        android:background="@color/color_step"
+        android:layout_gravity="center"/>
 
     <TextView
         android:id="@+id/prepare_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text="@string/designed_text_view_prepare_content"/>
+
+    <TextView
+        android:layout_height="25dp"
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:text="@string/text_view_step_title"
+        android:background="@color/color_step"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recipe_step_recycle"
