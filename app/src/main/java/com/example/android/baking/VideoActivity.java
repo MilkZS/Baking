@@ -50,8 +50,11 @@ public class VideoActivity extends AppCompatActivity implements ExoPlayer.EventL
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        Toast.makeText(this,"this is onCreate",Toast.LENGTH_SHORT).show();
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_video);
+        Toast.makeText(this,"this is onCreate",Toast.LENGTH_SHORT).show();
+
+
         Intent intent = getIntent();
         if(intent.hasExtra(BaseInfo.INTENT_RECIPE)){
             recipeSteps = (RecipeSteps) intent.getSerializableExtra(BaseInfo.INTENT_RECIPE);
