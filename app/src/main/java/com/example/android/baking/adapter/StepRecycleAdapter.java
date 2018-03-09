@@ -2,6 +2,7 @@ package com.example.android.baking.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,11 +60,13 @@ public class StepRecycleAdapter extends RecyclerView.Adapter<StepRecycleAdapter.
     class MyStepRecycleHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private TextView short_description;
+        private CardView cardView;
 
         public MyStepRecycleHolder(View itemView) {
             super(itemView);
             short_description = itemView.findViewById(R.id.short_description);
-            short_description.setOnClickListener(this);
+            cardView = itemView.findViewById(R.id.step_card_view);
+            itemView.setOnClickListener(this);
         }
 
         @Override
