@@ -1,10 +1,12 @@
 package com.example.android.baking;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,7 +40,8 @@ import java.util.ArrayList;
 
 public class VideoActivity extends AppCompatActivity implements ExoPlayer.EventListener{
 
-    private int position;
+    private String TAG = "VideoActivity";
+    private int position = 0;
     private RecipeStep recipeStep;
     private RecipeSteps recipeSteps;
     private SimpleExoPlayer mExoPlayer;
@@ -46,7 +49,7 @@ public class VideoActivity extends AppCompatActivity implements ExoPlayer.EventL
     private ArrayList<RecipeStep> recipeStepArrayList;
     private int len = 0;
     private TextView videoTextView;
-
+    private boolean bool_land = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,17 +59,35 @@ public class VideoActivity extends AppCompatActivity implements ExoPlayer.EventL
 
 
         Intent intent = getIntent();
+        if (intent.hasExtra(BaseInfo.INTENT_TITLE)){
+            String label = intent.getStringExtra(BaseInfo.INTENT_TITLE);
+            setTitle(label);
+        }
+
         if(intent.hasExtra(BaseInfo.INTENT_RECIPE)){
             recipeSteps = (RecipeSteps) intent.getSerializableExtra(BaseInfo.INTENT_RECIPE);
             recipeStepArrayList = recipeSteps.getRecipeStepArrayList();
             len = recipeStepArrayList.size();
         }
-        if (intent.hasExtra(BaseInfo.INTENT_LIST_INDEX)){
-            position = intent.getIntExtra(BaseInfo.INTENT_LIST_INDEX,0);
-        }
 
+        if(savedInstanceState != null){
+            if (savedInstanceState.containsKey(BaseInfo.ACTIVITY_POSITION)){
+                position = savedInstanceState.getInt(BaseInfo.ACTIVITY_POSITION);
+            }
+        }else {
+
+            if (intent.hasExtra(BaseInfo.INTENT_LIST_INDEX)) {
+                position = intent.getIntExtra(BaseInfo.INTENT_LIST_INDEX, 0);
+                Log.d(TAG, "video position is " + position);
+            }
+        }
+        bool_land = getResources().getConfiguration().orientation
+                == Configuration.ORIENTATION_LANDSCAPE;
+
+        if(!bool_land){
+            videoTextView = findViewById(R.id.video_description);
+        }
         mPlayerView = findViewById(R.id.video_step);
-        videoTextView = findViewById(R.id.video_description);
         getToStartPlayer();
 
     }
@@ -137,6 +158,12 @@ public class VideoActivity extends AppCompatActivity implements ExoPlayer.EventL
         recipeStep = recipeStepArrayList.get(position);
         Uri uri = Uri.parse(recipeStep.getsVideo());
         initializePlayer(uri);
+        if (!bool_land){
+            setVideoText();
+        }
+    }
+
+    private void setVideoText(){
         videoTextView.setText("");
         videoTextView.setText(recipeStep.getsDescription());
     }
@@ -155,6 +182,14 @@ public class VideoActivity extends AppCompatActivity implements ExoPlayer.EventL
     protected void onDestroy() {
         super.onDestroy();
         deletePlayer();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+
+        outState.putInt(BaseInfo.ACTIVITY_POSITION,position);
+
+        super.onSaveInstanceState(outState);
     }
 
     @Override
