@@ -6,9 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.example.android.baking.adapter.PicRecycleAdapter;
 import com.example.android.baking.adapter.StepRecycleAdapter;
 import com.example.android.baking.base.BaseInfo;
 import com.example.android.baking.base.RecipeStep;
