@@ -25,6 +25,9 @@
     <string name="designed_button_last">Last</string>
     <string name="designed_button_next">Next</string>
 
+    <string name="button_last">Last Video</string>
+    <string name="button_next">Next Video</string>
+
     <string name="show_wrong_dialog_last">This is the first Video</string>
     <string name="show_wrong_dialog_next">This is the final Video</string>
 
