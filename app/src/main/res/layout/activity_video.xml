@@ -23,28 +23,28 @@
         android:layout_marginLeft="8dp" />
 
     <Button
-        android:id="@+id/video_last_but"
+        android:id="@+id/video_next_but"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="64dp"
         android:layout_marginTop="8dp"
-        android:onClick="jumpToLast"
+        android:onClick="jumpToNext"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/video_description"
         tools:text="@string/designed_button_last"
-        android:text="@string/button_last"
+        android:text="@string/button_next"
         android:layout_marginRight="64dp" />
 
     <Button
-        android:id="@+id/video_next_but"
-        android:text="@string/button_next"
+        android:id="@+id/video_last_but"
+        android:text="@string/button_last"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
         android:layout_marginTop="8dp"
-        android:onClick="jumpToNext"
+        android:onClick="jumpToLast"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/video_description"
         tools:text="@string/designed_button_next"
