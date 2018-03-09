@@ -50,7 +50,7 @@ public class PicRecycleAdapter extends RecyclerView.Adapter<PicRecycleAdapter.My
     public void onBindViewHolder(MyPicRecycleHolder holder, int position) {
         mCursor.moveToPosition(position);
 
-        String name = mCursor.getString(
+        final String name = mCursor.getString(
                 mCursor.getColumnIndex(RecipeContract.RecipeInfo.COLUMN_NAME));
         holder.nameTextView.setText(name);
 
@@ -59,14 +59,14 @@ public class PicRecycleAdapter extends RecyclerView.Adapter<PicRecycleAdapter.My
         number = context.getResources().getString(R.string.main_activity_show_serving) + number;
         holder.numberTextView.setText(number);
 
-        String ingredients = mCursor.getString(
+        final String ingredients = mCursor.getString(
                 mCursor.getColumnIndex(RecipeContract.RecipeInfo.COLUMN_INGREDIENTS));
         if(ingredients == null){
             if (DBG) Log.e(TAG,"it is wrong,ingredients is null");
         }
 
         if(DBG) Log.d(TAG,"get ingredients are " + ingredients);
-        String singleIngredientArr = FormRecipe.formIngredients(ingredients);
+        final String singleIngredientArr = FormRecipe.formIngredients(ingredients);
         holder.ingredientTextView.setText(singleIngredientArr);
 
         final String steps = mCursor.getString(
@@ -77,6 +77,8 @@ public class PicRecycleAdapter extends RecyclerView.Adapter<PicRecycleAdapter.My
                 RecipeSteps recipeSteps = FormRecipe.addArrayList(steps);
                 Intent intent = new Intent(context, StepsActivity.class);
                 intent.putExtra(BaseInfo.INTENT_LIST,recipeSteps);
+                intent.putExtra(BaseInfo.INTENT_TITLE,name);
+                intent.putExtra(BaseInfo.INTENT_PREPARE,singleIngredientArr);
                 context.startActivity(intent);
             }
         });
