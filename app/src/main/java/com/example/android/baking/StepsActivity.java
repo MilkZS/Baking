@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.example.android.baking.adapter.StepRecycleAdapter;
 import com.example.android.baking.base.BaseInfo;
@@ -19,6 +20,8 @@ public class StepsActivity extends AppCompatActivity implements StepRecycleAdapt
     private String TAG = "StepsActivity";
     private ArrayList<RecipeStep> recipeStepArrayList;
     private RecipeSteps recipeSteps;
+    private String label ;
+    private TextView prepareText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +33,21 @@ public class StepsActivity extends AppCompatActivity implements StepRecycleAdapt
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
 
+        prepareText = findViewById(R.id.prepare_text_view);
+
         Intent intent = getIntent();
+
+        if(intent.hasExtra(BaseInfo.INTENT_PREPARE)){
+            String s = intent.getStringExtra(BaseInfo.INTENT_PREPARE);
+            prepareText.setText(s);
+        }
+
+        if(intent.hasExtra(BaseInfo.INTENT_TITLE)){
+            label = "Recipe " + intent.getStringExtra(BaseInfo.INTENT_TITLE);
+            setTitle(label);
+        }else{
+            label = "Recipe video";
+        }
         if(intent.hasExtra(BaseInfo.INTENT_LIST)) {
 
             recipeSteps = (RecipeSteps) intent.getSerializableExtra(BaseInfo.INTENT_LIST);
@@ -41,12 +58,15 @@ public class StepsActivity extends AppCompatActivity implements StepRecycleAdapt
         }
     }
 
+
+
     @Override
     public void onClick(int position) {
         Log.d(TAG,"it is click ");
         Intent intent = new Intent(this, VideoActivity.class);
         intent.putExtra(BaseInfo.INTENT_RECIPE,recipeSteps);
         intent.putExtra(BaseInfo.INTENT_LIST_INDEX,position);
+        intent.putExtra(BaseInfo.INTENT_TITLE,label);
         this.startActivity(intent);
     }
 }
