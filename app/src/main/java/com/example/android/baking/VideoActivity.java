@@ -3,9 +3,10 @@ package com.example.android.baking;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.baking.base.BaseInfo;
@@ -22,14 +23,10 @@ import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.TrackGroupArray;
-import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.trackselection.TrackSelection;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
-import com.google.android.exoplayer2.upstream.BandwidthMeter;
-import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
@@ -46,47 +43,30 @@ public class VideoActivity extends AppCompatActivity implements ExoPlayer.EventL
     private RecipeSteps recipeSteps;
     private SimpleExoPlayer mExoPlayer;
     private SimpleExoPlayerView mPlayerView;
+    private ArrayList<RecipeStep> recipeStepArrayList;
+    private int len = 0;
+    private TextView videoTextView;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        Toast.makeText(this,"this is oncreate",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,"this is onCreate",Toast.LENGTH_SHORT).show();
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         if(intent.hasExtra(BaseInfo.INTENT_RECIPE)){
             recipeSteps = (RecipeSteps) intent.getSerializableExtra(BaseInfo.INTENT_RECIPE);
-
+            recipeStepArrayList = recipeSteps.getRecipeStepArrayList();
+            len = recipeStepArrayList.size();
         }
         if (intent.hasExtra(BaseInfo.INTENT_LIST_INDEX)){
             position = intent.getIntExtra(BaseInfo.INTENT_LIST_INDEX,0);
         }
 
-        recipeStep = recipeSteps.getRecipeStepArrayList().get(position);
-        String urlS = recipeStep.getsVideo();
-        Uri uri = Uri.parse(urlS);
-
         mPlayerView = findViewById(R.id.video_step);
+        videoTextView = findViewById(R.id.video_description);
+        getToStartPlayer();
 
-
-
-        initializePlayer(uri);
     }
-
-    /*
-    private void videoImpl(){
-        Handler videoHandler = new Handler();
-        BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
-        TrackSelection.Factory videoTrackSelectionFactory =
-                new AdaptiveTrackSelection.Factory(bandwidthMeter);
-        TrackSelector trackSelector =
-                new DefaultTrackSelector(videoTrackSelectionFactory);
-        // 2. Create the player
-        SimpleExoPlayer player =
-               ExoPlayerFactory.newSimpleInstance(this, trackSelector);
-
-
-    }*/
-
 
     /**
      * Initialize ExoPlayer.
@@ -112,12 +92,66 @@ public class VideoActivity extends AppCompatActivity implements ExoPlayer.EventL
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    /**
+     * Used for last button to play last video
+     *
+     * @param view activity.xml
+     */
+    public void jumpToLast(View view){
+        position --;
+        if(position < 0){
+            position = 0;
+            String dialog = getResources().getString(R.string.show_wrong_dialog_last);
+            Toast.makeText(this,dialog,Toast.LENGTH_SHORT).show();
+            return;
+        }
+        deletePlayer();
+        getToStartPlayer();
+    }
+
+    /**
+     * Used for next button to play next video
+     *
+     * @param view activity.xml
+     */
+    public void jumpToNext(View view){
+        position ++;
+        if(position >= len ){
+            position = len - 1;
+            String dialog = getResources().getString(R.string.show_wrong_dialog_next);
+            Toast.makeText(this,dialog,Toast.LENGTH_SHORT).show();
+            return;
+        }
+        deletePlayer();
+        getToStartPlayer();
+    }
+
+    /**
+     * start to play video by uri
+     *
+     */
+    private void getToStartPlayer(){
+        recipeStep = recipeStepArrayList.get(position);
+        Uri uri = Uri.parse(recipeStep.getsVideo());
+        initializePlayer(uri);
+        videoTextView.setText("");
+        videoTextView.setText(recipeStep.getsDescription());
+    }
+
+    /**
+     * Release the video player
+     *
+     */
+    private void deletePlayer(){
         mExoPlayer.stop();
         mExoPlayer.release();
         mExoPlayer = null;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        deletePlayer();
     }
 
     @Override
