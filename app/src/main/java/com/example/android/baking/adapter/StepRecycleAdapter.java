@@ -66,12 +66,12 @@ public class StepRecycleAdapter extends RecyclerView.Adapter<StepRecycleAdapter.
             super(itemView);
             short_description = itemView.findViewById(R.id.short_description);
             cardView = itemView.findViewById(R.id.step_card_view);
-            itemView.setOnClickListener(this);
+            cardView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            videoClick.onClick(position);
+            videoClick.onClick(getAdapterPosition());
         }
     }
 
