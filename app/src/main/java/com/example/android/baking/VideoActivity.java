@@ -54,9 +54,14 @@ public class VideoActivity extends AppCompatActivity implements ExoPlayer.EventL
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_video);
-        Toast.makeText(this,"this is onCreate",Toast.LENGTH_SHORT).show();
 
+        bool_land = getResources().getConfiguration().getLayoutDirection() == Configuration.ORIENTATION_LANDSCAPE;
+
+        if(bool_land){
+            setContentView(R.layout.activity_video_land);
+        }else {
+            setContentView(R.layout.activity_video);
+        }
 
         Intent intent = getIntent();
         if (intent.hasExtra(BaseInfo.INTENT_TITLE)){
