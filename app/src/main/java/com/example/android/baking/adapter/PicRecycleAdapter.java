@@ -15,10 +15,12 @@ import android.widget.TextView;
 import com.example.android.baking.R;
 import com.example.android.baking.StepsActivity;
 import com.example.android.baking.base.BaseInfo;
+import com.example.android.baking.base.RecipeStep;
 import com.example.android.baking.base.RecipeSteps;
 import com.example.android.baking.db.RecipeContract;
 import com.example.android.baking.util.FormRecipe;
-import com.example.android.baking.util.ReadFromJsonString;
+
+import java.util.ArrayList;
 
 /**
  * Created by milkdz on 2018/2/28.
@@ -31,7 +33,9 @@ public class PicRecycleAdapter extends RecyclerView.Adapter<PicRecycleAdapter.My
     private Cursor mCursor;
     private RecipeClickHandle recipeClickHandle;
     private Context context;
-
+    private String prepareText;
+    private String label;
+    private ArrayList<RecipeStep> recipeStepsArrayList;
 
     public PicRecycleAdapter(RecipeClickHandle recipeClickHandle){
         this.recipeClickHandle = recipeClickHandle;
@@ -53,6 +57,7 @@ public class PicRecycleAdapter extends RecyclerView.Adapter<PicRecycleAdapter.My
         final String name = mCursor.getString(
                 mCursor.getColumnIndex(RecipeContract.RecipeInfo.COLUMN_NAME));
         holder.nameTextView.setText(name);
+        label = name;
 
         String number = mCursor.getString(
                 mCursor.getColumnIndex(RecipeContract.RecipeInfo.COLUMN_SERVINGS));
@@ -68,6 +73,7 @@ public class PicRecycleAdapter extends RecyclerView.Adapter<PicRecycleAdapter.My
         if(DBG) Log.d(TAG,"get ingredients are " + ingredients);
         final String singleIngredientArr = FormRecipe.formIngredients(ingredients);
         holder.ingredientTextView.setText(singleIngredientArr);
+        prepareText = singleIngredientArr;
 
         final String steps = mCursor.getString(
                 mCursor.getColumnIndex(RecipeContract.RecipeInfo.COLUMN_STEP));
@@ -75,6 +81,7 @@ public class PicRecycleAdapter extends RecyclerView.Adapter<PicRecycleAdapter.My
             @Override
             public void onClick(View v) {
                 RecipeSteps recipeSteps = FormRecipe.addArrayList(steps);
+                recipeStepsArrayList = recipeSteps.getRecipeStepArrayList();
                 Intent intent = new Intent(context, StepsActivity.class);
                 intent.putExtra(BaseInfo.INTENT_LIST,recipeSteps);
                 intent.putExtra(BaseInfo.INTENT_TITLE,name);
@@ -82,6 +89,7 @@ public class PicRecycleAdapter extends RecyclerView.Adapter<PicRecycleAdapter.My
                 context.startActivity(intent);
             }
         });
+
     }
 
     @Override
@@ -115,8 +123,7 @@ public class PicRecycleAdapter extends RecyclerView.Adapter<PicRecycleAdapter.My
             int adapterPosition = getAdapterPosition();
             mCursor.moveToPosition(adapterPosition);
 
-            String recipeId = mCursor.getString(mCursor.getColumnIndex(RecipeContract.RecipeInfo.COLUMN_ID));
-            recipeClickHandle.onClick(recipeId);
+            recipeClickHandle.onClick(label,prepareText,recipeStepsArrayList);
         }
     }
 
@@ -126,6 +133,6 @@ public class PicRecycleAdapter extends RecyclerView.Adapter<PicRecycleAdapter.My
     }
 
     public interface RecipeClickHandle{
-        void onClick(String index);
+        void onClick(String label, String prepareText, ArrayList<RecipeStep> recipeStepsArrayList);
     }
 }
