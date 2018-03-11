@@ -1,5 +1,7 @@
 package com.example.android.baking.base;
 
+import java.util.ArrayList;
+
 /**
  * Created by milkdz on 2018/2/22.
  */
@@ -32,7 +34,15 @@ public interface BaseInfo {
     String INTENT_LIST_INDEX = "recipe_step_list_index";
     String INTENT_PREPARE = "recipe_prepare";
 
+    String BUNDLE_VIDEO_POSITION = "position_video";
+    String BUNDLE_VIDEO_ARRAYLIST = "array_list_video";
+
+    String BUNDLE_STEP_POSITION = "position_step";
+    String BUNDLE_STEP_RECIPES = "recipes_step";
+
     String ACTIVITY_POSITION = "video_position";
+
+
 
     //chose mode to dis step or ingredient
     int RECIPE_MODE_INGREDIENTS = 1;
