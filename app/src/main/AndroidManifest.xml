@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".BakingMainActivity"
+        <activity
+            android:name=".BakingMainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,11 +29,19 @@
             android:authorities="com.example.android.baking"
             android:exported="false" />
 
-        <activity android:name=".StepsActivity"></activity>
+        <activity android:name=".StepsActivity" />
         <activity android:name=".VideoActivity" />
         <activity android:name=".StepVideoPadActivity" />
 
+        <receiver android:name=".BakingAppWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
 
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/baking_app_widget_info" />
+        </receiver>
     </application>
 
 </manifest>
