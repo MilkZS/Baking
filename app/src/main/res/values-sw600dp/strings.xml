@@ -16,8 +16,23 @@
     <string name="designed_button_materials">准备原料</string>
     <string name="designed_show_serving">可用餐人数：8</string>
     <string name="designed_text_view_prepare">Prepare</string>
-    <!-- child activity -->
-    <string name="designed_text_view_prepare_content">1. salt  2.     3.Aasfasvasvasvasvasvsavas</string>>
+    <!-- step activity -->
+    <string name="designed_text_view_prepare_content">1. salt  2.     3.Aasfasvasvasvasvasvsavas</string>
+
+    <string name="designed_text_view_step">step firest test hah</string>
+    <string name="text_view_step_title">Steps</string>
+
+    <!-- video activity -->
+    <string name="designed_text_video_description">this movie shows us something</string>
+    <string name="designed_button_last">Last</string>
+    <string name="designed_button_next">Next</string>
+
+    <string name="button_last">Last Video</string>
+    <string name="button_next">Next Video</string>
+
+    <string name="show_wrong_dialog_last">This is the first Video</string>
+    <string name="show_wrong_dialog_next">This is the final Video</string>
+
 
     <!-- values of fragment_card_food_recipe -->
     <!-- TextView -->
