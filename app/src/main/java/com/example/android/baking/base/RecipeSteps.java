@@ -13,10 +13,6 @@ public class RecipeSteps implements Serializable{
 
     private ArrayList<RecipeStep> recipeStepArrayList ;
 
-    public RecipeSteps(ArrayList<RecipeStep> recipeStepArrayList) {
-        this.recipeStepArrayList = recipeStepArrayList;
-    }
-
     public ArrayList<RecipeStep> getRecipeStepArrayList() {
         return recipeStepArrayList;
     }
