@@ -12,9 +12,13 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.example.android.baking.adapter.PicRecycleAdapter;
+import com.example.android.baking.base.RecipeStep;
+import com.example.android.baking.base.TakeValues;
 import com.example.android.baking.db.RecipeContract;
 import com.example.android.baking.db.SQLBaseInfo;
 import com.example.android.baking.sync.RecipeThread;
+
+import java.util.ArrayList;
 
 /**
  * Created by milkdz on 2018/2/20.
@@ -32,6 +36,13 @@ public class BakingMainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.baking_main_activity);
 
+        String rowNumber = getResources().getString(R.string.card_view_col);
+        if(rowNumber.equals("1")){
+            TakeValues.ifUseFragment = false;
+        }else if(rowNumber.equals("3")){
+            TakeValues.ifUseFragment = true;
+        }
+
         recyclerView = findViewById(R.id.recipe_recycle);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(
                 this,Integer.parseInt(getString(R.string.card_view_col)));
@@ -42,11 +53,6 @@ public class BakingMainActivity extends AppCompatActivity
         recyclerView.setAdapter(picRecycleAdapter);
         getSupportLoaderManager().initLoader(0,null,this);
         RecipeThread.initialize(this);
-    }
-
-    @Override
-    public void onClick(String index) {
-
     }
 
     @Override
@@ -68,5 +74,13 @@ public class BakingMainActivity extends AppCompatActivity
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         picRecycleAdapter.swapCursor(null);
+    }
+
+    @Override
+    public void onClick(String label, String prepareText, ArrayList<RecipeStep> recipeStepsArrayList) {
+       TakeValues.label = label;
+        TakeValues.prepareText = prepareText;
+        TakeValues.recipeStepsArrayList = recipeStepsArrayList;
+
     }
 }
