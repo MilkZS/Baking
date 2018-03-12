@@ -20,11 +20,6 @@ public class TakeValues {
     public static String label = "";
     public static ArrayList<RecipeStep> recipeStepsArrayList = new ArrayList<>();
 
-    public static int times = 0;
-
     /** values for video */
     public static ExoPlayer.EventListener eventListener;
-    public static int position = 0;
-    public static Uri uri = Uri.parse("");
-    public static ArrayList<RecipeStep> recipeVideoArrayList = new ArrayList<>();
 }

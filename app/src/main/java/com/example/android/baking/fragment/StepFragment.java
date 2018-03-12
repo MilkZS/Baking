@@ -1,24 +1,19 @@
 package com.example.android.baking.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.TextView;
 
 import com.example.android.baking.R;
 import com.example.android.baking.adapter.StepRecycleAdapter;
-import com.example.android.baking.base.BaseInfo;
 import com.example.android.baking.base.RecipeStep;
-import com.example.android.baking.base.RecipeSteps;
 import com.example.android.baking.base.TakeValues;
 
 import java.util.ArrayList;

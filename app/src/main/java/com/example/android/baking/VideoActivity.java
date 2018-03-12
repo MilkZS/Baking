@@ -50,6 +50,8 @@ public class VideoActivity extends AppCompatActivity implements ExoPlayer.EventL
     private int len = 0;
     private TextView videoTextView;
     private boolean bool_land = false;
+    private long playerPosition = 0;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,6 +81,9 @@ public class VideoActivity extends AppCompatActivity implements ExoPlayer.EventL
             if (savedInstanceState.containsKey(BaseInfo.ACTIVITY_POSITION)){
                 position = savedInstanceState.getInt(BaseInfo.ACTIVITY_POSITION);
             }
+            if(savedInstanceState.containsKey(BaseInfo.ACTIVITY_VIDEO_POSITION)){
+                playerPosition = savedInstanceState.getLong(BaseInfo.ACTIVITY_VIDEO_POSITION);
+            }
         }else {
 
             if (intent.hasExtra(BaseInfo.INTENT_LIST_INDEX)) {
@@ -107,6 +112,7 @@ public class VideoActivity extends AppCompatActivity implements ExoPlayer.EventL
             TrackSelector trackSelector = new DefaultTrackSelector();
             LoadControl loadControl = new DefaultLoadControl();
             mExoPlayer = ExoPlayerFactory.newSimpleInstance(this, trackSelector, loadControl);
+            mExoPlayer.seekTo(playerPosition);
             mPlayerView.setPlayer(mExoPlayer);
 
             // Set the ExoPlayer.EventListener to this activity.
@@ -117,7 +123,7 @@ public class VideoActivity extends AppCompatActivity implements ExoPlayer.EventL
             MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
                     this, userAgent), new DefaultExtractorsFactory(), null, null);
             mExoPlayer.prepare(mediaSource);
-            mExoPlayer.setPlayWhenReady(true);
+            mExoPlayer.setPlayWhenReady(false);
         }
     }
 
@@ -134,7 +140,7 @@ public class VideoActivity extends AppCompatActivity implements ExoPlayer.EventL
             Toast.makeText(this,dialog,Toast.LENGTH_SHORT).show();
             return;
         }
-        deletePlayer();
+        releasePlayer();
         getToStartPlayer();
     }
 
@@ -151,7 +157,7 @@ public class VideoActivity extends AppCompatActivity implements ExoPlayer.EventL
             Toast.makeText(this,dialog,Toast.LENGTH_SHORT).show();
             return;
         }
-        deletePlayer();
+        releasePlayer();
         getToStartPlayer();
     }
 
@@ -177,23 +183,62 @@ public class VideoActivity extends AppCompatActivity implements ExoPlayer.EventL
      * Release the video player
      *
      */
-    private void deletePlayer(){
-        mExoPlayer.stop();
-        mExoPlayer.release();
-        mExoPlayer = null;
+    private void releasePlayer(){
+        if(mExoPlayer != null){
+            playerPosition = mExoPlayer.getCurrentPosition();
+            mExoPlayer.stop();
+            mExoPlayer.release();
+            mExoPlayer = null;
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(Util.SDK_INT > 23){
+            getToStartPlayer();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(Util.SDK_INT <= 23 || mExoPlayer == null){
+            getToStartPlayer();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(Util.SDK_INT <= 23){
+            playerPosition = mExoPlayer.getCurrentPosition();
+            releasePlayer();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(Util.SDK_INT > 23){
+            playerPosition = mExoPlayer.getCurrentPosition();
+            releasePlayer();
+        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        deletePlayer();
+        releasePlayer();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-
+        if(mExoPlayer != null){
+            playerPosition = mExoPlayer.getCurrentPosition();
+        }
         outState.putInt(BaseInfo.ACTIVITY_POSITION,position);
-
+        outState.putLong(BaseInfo.ACTIVITY_VIDEO_POSITION,playerPosition);
         super.onSaveInstanceState(outState);
     }
 

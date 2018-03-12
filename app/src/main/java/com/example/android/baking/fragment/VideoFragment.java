@@ -15,7 +15,6 @@ import com.example.android.baking.R;
 import com.example.android.baking.adapter.StepRecycleAdapter;
 import com.example.android.baking.base.BaseInfo;
 import com.example.android.baking.base.RecipeStep;
-import com.example.android.baking.base.RecipeSteps;
 import com.example.android.baking.base.TakeValues;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlayerFactory;
@@ -49,7 +48,7 @@ public class VideoFragment extends Fragment implements StepRecycleAdapter.VideoC
     private RecipeStep recipeStep;
     private Context context;
     private boolean bool_land = false;
-
+    private long playerPosition = 0;
 
     @Nullable
     @Override
@@ -62,17 +61,17 @@ public class VideoFragment extends Fragment implements StepRecycleAdapter.VideoC
         view.findViewById(R.id.video_next_but).setVisibility(View.GONE);
         view.findViewById(R.id.video_last_but).setVisibility(View.GONE);
 
-        // recipeStepArrayList = TakeValues.recipeStepsArrayList;
+        if(savedInstanceState != null){
+            if(savedInstanceState.containsKey(BaseInfo.ACTIVITY_VIDEO_POSITION)){
+                playerPosition = savedInstanceState.getLong(BaseInfo.ACTIVITY_VIDEO_POSITION);
+            }
+        }
 
-
-
-       /// position = TakeValues.position;
         Log.d(TAG,"position is " + position);
         if(recipeStepArrayList != null && recipeStepArrayList.size() != 0){
             Log.d(TAG,"arrayList size is " + recipeStepArrayList.size());
             getToStartPlayer();
         }
-       // getToStartPlayer();
         return view;
     }
 
@@ -104,6 +103,7 @@ public class VideoFragment extends Fragment implements StepRecycleAdapter.VideoC
         videoTextView.setText("");
         videoTextView.setText(recipeStep.getsDescription());
     }
+
     /**
      * Initialize ExoPlayer.
      * @param mediaUri The URI of the sample to play.
@@ -114,6 +114,7 @@ public class VideoFragment extends Fragment implements StepRecycleAdapter.VideoC
             TrackSelector trackSelector = new DefaultTrackSelector();
             LoadControl loadControl = new DefaultLoadControl();
             mExoPlayer = ExoPlayerFactory.newSimpleInstance(context, trackSelector, loadControl);
+            mExoPlayer.seekTo(playerPosition);
             mPlayerView.setPlayer(mExoPlayer);
 
             // Set the ExoPlayer.EventListener to this activity.
@@ -125,29 +126,61 @@ public class VideoFragment extends Fragment implements StepRecycleAdapter.VideoC
             MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
                     context, userAgent), new DefaultExtractorsFactory(), null, null);
             mExoPlayer.prepare(mediaSource);
-            mExoPlayer.setPlayWhenReady(true);
+            mExoPlayer.setPlayWhenReady(false);
         }
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        deletePlayer();
+        releasePlayer();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(Util.SDK_INT > 23){
+            getToStartPlayer();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(Util.SDK_INT <= 23 || mExoPlayer == null){
+            getToStartPlayer();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(Util.SDK_INT <= 23){
+            releasePlayer();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(Util.SDK_INT > 23){
+            releasePlayer();
+        }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        deletePlayer();
+        releasePlayer();
     }
-
 
     /**
      * Release the video player
      *
      */
-    private void deletePlayer(){
+    private void releasePlayer(){
         if(mExoPlayer != null){
+            playerPosition = mExoPlayer.getCurrentPosition();
             mExoPlayer.stop();
             mExoPlayer.release();
             mExoPlayer = null;
@@ -161,5 +194,12 @@ public class VideoFragment extends Fragment implements StepRecycleAdapter.VideoC
         notify();
     }
 
-
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        if(mExoPlayer != null){
+            playerPosition = mExoPlayer.getCurrentPosition();
+        }
+        outState.putLong(BaseInfo.ACTIVITY_VIDEO_POSITION,playerPosition);
+        super.onSaveInstanceState(outState);
+    }
 }

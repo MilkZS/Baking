@@ -1,13 +1,20 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#09C"
+    android:orientation="vertical"
     android:padding="@dimen/widget_margin">
 
-    <ImageView
-        android:id="@+id/widget_img"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/example_appwidget_preview" />
+    <TextView
+        android:id="@+id/name_widget"
+        android:layout_weight="0.3"
+        android:layout_height="0dp"
+        android:layout_width="match_parent"/>
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/show_widget"
+        android:layout_weight="0.7"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+
+</LinearLayout>

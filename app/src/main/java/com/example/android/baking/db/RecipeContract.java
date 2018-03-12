@@ -40,15 +40,6 @@ public class RecipeContract {
             RecipeInfo.COLUMN_STEP
     };
 
-    public static final String[] RECIPE_DETAIL_UI_COL = {
-            RecipeInfo.COLUMN_ID,
-            RecipeInfo._ID,
-            RecipeInfo.COLUMN_SERVINGS,
-            RecipeInfo.COLUMN_NAME,
-            RecipeInfo.COLUMN_INGREDIENTS,
-            RecipeInfo.COLUMN_STEP
-    };
-
     public static final String[] QUERY_INGREDIENTS = {
             BaseInfo.RECIPE_INGREDIENTS_QUANTITY,
             BaseInfo.RECIPE_INGREDIENTS_MEASURE,

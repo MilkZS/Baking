@@ -22,6 +22,5 @@ public class RecipeSteps implements Serializable{
     }
 
     public RecipeSteps() {
-
     }
 }
