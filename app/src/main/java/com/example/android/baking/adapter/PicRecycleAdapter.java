@@ -34,7 +34,7 @@ public class PicRecycleAdapter extends RecyclerView.Adapter<PicRecycleAdapter.My
     private RecipeClickHandle recipeClickHandle;
     private Context context;
     private String prepareText;
-    private String label;
+    private String label = "";
     private ArrayList<RecipeStep> recipeStepsArrayList;
 
     public PicRecycleAdapter(RecipeClickHandle recipeClickHandle){
@@ -57,6 +57,9 @@ public class PicRecycleAdapter extends RecyclerView.Adapter<PicRecycleAdapter.My
         final String name = mCursor.getString(
                 mCursor.getColumnIndex(RecipeContract.RecipeInfo.COLUMN_NAME));
         holder.nameTextView.setText(name);
+        if(name != null){
+            label = name;
+        }
         label = name;
 
         String number = mCursor.getString(
@@ -122,7 +125,11 @@ public class PicRecycleAdapter extends RecyclerView.Adapter<PicRecycleAdapter.My
         public void onClick(View v) {
             int adapterPosition = getAdapterPosition();
             mCursor.moveToPosition(adapterPosition);
-
+            label =  mCursor.getString(
+                    mCursor.getColumnIndex(RecipeContract.RecipeInfo.COLUMN_NAME));
+            String steps = mCursor.getString(
+                    mCursor.getColumnIndex(RecipeContract.RecipeInfo.COLUMN_STEP));
+            recipeStepsArrayList =  FormRecipe.addArrayList(steps).getRecipeStepArrayList();
             recipeClickHandle.onClick(label,prepareText,recipeStepsArrayList);
         }
     }

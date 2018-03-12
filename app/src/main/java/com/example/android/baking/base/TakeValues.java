@@ -15,6 +15,9 @@ public class TakeValues {
 
     public static boolean ifUseFragment = false;
 
+    public static int widgetPosition = 0;
+    public static RecipeSteps recipeSteps = new RecipeSteps();
+
     /**  values for step */
     public static String prepareText = "";
     public static String label = "";
