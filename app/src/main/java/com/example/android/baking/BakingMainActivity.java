@@ -84,13 +84,11 @@ public class BakingMainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onClick(String label, String prepareText, ArrayList<RecipeStep> recipeStepsArrayList,int mPosition) {
-        TakeValues.label = label;
-        TakeValues.prepareText = prepareText;
-        TakeValues.recipeStepsArrayList = recipeStepsArrayList;
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(BaseInfo.PREFERENCE_WIDGET_POSITION,mPosition);
-        editor.apply();
-        editor.commit();
+    public void onClick(int mPosition) {
+       SharedPreferences sharedPreferences = getSharedPreferences(BaseInfo.PREFERENCE_WIDGET,MODE_PRIVATE);
+       SharedPreferences.Editor editor = sharedPreferences.edit();
+       editor.putInt(BaseInfo.PREFERENCE_WIDGET_POSITION,mPosition);
+       editor.apply();
+       editor.commit();
     }
 }
