@@ -27,6 +27,7 @@ public interface BaseInfo {
 
     String RECIPE_SERVINGS = "servings";
 
+
     String INTENT_TITLE = "recipe_title";
     String INTENT_RECIPE = "recipe_video";
     String INTENT_LIST = "recipe_step_list";
@@ -34,9 +35,10 @@ public interface BaseInfo {
     String INTENT_PREPARE = "recipe_prepare";
 
     String ACTIVITY_VIDEO_POSITION = "activity_video_player_position";
-
     String ACTIVITY_POSITION = "video_position";
 
+    String PREFERENCE_WIDGET = "preference_widget";
+    String PREFERENCE_WIDGET_POSITION = "preference_widget_position";
 
 
 }
