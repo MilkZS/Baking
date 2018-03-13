@@ -14,7 +14,8 @@
             android:id="@+id/name_widget"
             android:layout_weight="0.5"
             android:layout_width="0dp"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_gravity="center"/>
         <Button
             android:id="@+id/change_but"
             android:text="@string/widget_but"
