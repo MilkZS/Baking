@@ -1,8 +1,10 @@
 package com.example.android.baking;
 
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -12,6 +14,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.example.android.baking.adapter.PicRecycleAdapter;
+import com.example.android.baking.base.BaseInfo;
 import com.example.android.baking.base.RecipeStep;
 import com.example.android.baking.base.TakeValues;
 import com.example.android.baking.db.RecipeContract;
@@ -30,11 +33,15 @@ public class BakingMainActivity extends AppCompatActivity
     private RecyclerView recyclerView;
     private PicRecycleAdapter picRecycleAdapter;
     private int mPosition = RecyclerView.NO_POSITION;
+    private SharedPreferences sharedPreferences;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.baking_main_activity);
+
+        sharedPreferences = getSharedPreferences(BaseInfo.PREFERENCE_WIDGET,MODE_PRIVATE);
 
         String rowNumber = getResources().getString(R.string.card_view_col);
         if(rowNumber.equals("1")){
@@ -77,10 +84,13 @@ public class BakingMainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onClick(String label, String prepareText, ArrayList<RecipeStep> recipeStepsArrayList) {
-       TakeValues.label = label;
+    public void onClick(String label, String prepareText, ArrayList<RecipeStep> recipeStepsArrayList,int mPosition) {
+        TakeValues.label = label;
         TakeValues.prepareText = prepareText;
         TakeValues.recipeStepsArrayList = recipeStepsArrayList;
-
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(BaseInfo.PREFERENCE_WIDGET_POSITION,mPosition);
+        editor.apply();
+        editor.commit();
     }
 }
