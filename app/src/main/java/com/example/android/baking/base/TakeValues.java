@@ -18,6 +18,8 @@ public class TakeValues {
     public static int widgetPosition = 0;
     public static RecipeSteps recipeSteps = new RecipeSteps();
 
+    public static ArrayList<ArrayList<String>> widgetArr = new ArrayList<>();
+
     /**  values for step */
     public static String prepareText = "";
     public static String label = "";
