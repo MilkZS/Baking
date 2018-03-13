@@ -5,7 +5,9 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
+import android.view.View;
 import android.widget.RemoteViews;
 
 import com.example.android.baking.R;
@@ -28,9 +30,12 @@ public class BakingAppWidget extends AppWidgetProvider {
                     R.layout.baking_app_widget
             );
             Intent intent = new Intent(context, WidgetService.class);
-            views.setRemoteAdapter(R.id.widget_list, intent);
-            appWidgetManager.updateAppWidget(appWidgetIds, views);
-
+           // views.setPendingIntentTemplate();
+            SharedPreferences sharedPreferences = context.getSharedPreferences(BaseInfo.PREFERENCE_WIDGET,Context.MODE_PRIVATE);
+            int po = sharedPreferences.getInt(BaseInfo.PREFERENCE_WIDGET_POSITION,0);
+            views.setTextViewText(R.id.name_widget,TakeValues.widgetArr.get(po).get(0));
+            views.setRemoteAdapter(R.id.prepare_list_view_widget, intent);
+            appWidgetManager.updateAppWidget(appWidgetId, views);
         }
     }
 
