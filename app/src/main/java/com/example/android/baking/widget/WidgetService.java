@@ -29,7 +29,6 @@ public class WidgetService extends RemoteViewsService {
     private int position = 0;
     private SharedPreferences sharedPreferences;
 
-
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
         sharedPreferences = getSharedPreferences(BaseInfo.PREFERENCE_WIDGET,MODE_PRIVATE);
@@ -38,23 +37,8 @@ public class WidgetService extends RemoteViewsService {
         }else{
             position = 0;
         }
-        Log.e("widget","onGetViewFactory");
+        Log.d("widget","onGetViewFactory");
         ArrayList<String> arrayList = TakeValues.widgetArr.get(position);
-
-        /*
-        Uri foodUri = RecipeContract.CONTENT_BASE;
-        Cursor cursor = this.getApplicationContext().getContentResolver().query(foodUri, null, null, null, null);
-        cursor.moveToPosition(position);
-        String prepareText = cursor.getString(
-                cursor.getColumnIndex(RecipeContract.RecipeInfo.COLUMN_INGREDIENTS));
-        String label = cursor.getString(
-                cursor.getColumnIndex(RecipeContract.RecipeInfo.COLUMN_NAME));
-        TakeValues.label = label;
-        String[] s = prepareText.split(",");
-        for(int i=0;i<s.length;i++){
-            this.prepareText.add(s[i]);
-        }*/
-
         return new RemoteViewFactory(this.getApplicationContext(),arrayList);
     }
 }
@@ -64,11 +48,14 @@ class RemoteViewFactory implements RemoteViewsService.RemoteViewsFactory {
     private String TAG = "Widget-RemoteViewFactory";
     private Context context;
     private ArrayList<String> prepareList;
-
+    private int lenArr = 3;
+    private int po = 0;
 
     public RemoteViewFactory(Context context,ArrayList<String> arrayList) {
         this.context = context;
         this.prepareList = arrayList;
+        SharedPreferences sharedPreferences = context.getSharedPreferences(BaseInfo.PREFERENCE_WIDGET,Context.MODE_PRIVATE);
+        po = sharedPreferences.getInt(BaseInfo.PREFERENCE_WIDGET_POSITION,0);
     }
 
     @Override
@@ -89,10 +76,10 @@ class RemoteViewFactory implements RemoteViewsService.RemoteViewsFactory {
     @Override
     public int getCount() {
         Log.e(TAG,"getCount");
-       if(prepareList == null){
+       if(prepareList.size() == 0){
            return 0;
        }
-        return prepareList.size()-2;
+        return prepareList.size()-lenArr;
     }
 
     @Override
@@ -102,17 +89,8 @@ class RemoteViewFactory implements RemoteViewsService.RemoteViewsFactory {
       //  }
         Log.e("widget","bind is here");
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_item_list);
-        views.setTextViewText(R.id.item_text_view,prepareList.get(position+2));///prepareList.get(position));
-/*
-
-        Intent intent = new Intent(context,StepsActivity.class);
-        intent.putExtra(BaseInfo.INTENT_LIST, FormRecipe.addArrayList(steps));
-        intent.putExtra(BaseInfo.INTENT_TITLE,label);
-        intent.putExtra(BaseInfo.INTENT_PREPARE,prepareText);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context,0,intent,0);
-        views.setOnClickPendingIntent(R.id.name_widget,pendingIntent);
-        views.setOnClickPendingIntent(R.id.show_widget,pendingIntent    );
-  */      return views;
+        views.setTextViewText(R.id.item_text_view,prepareList.get(position+lenArr));///prepareList.get(position));
+           return views;
     }
     @Override
     public RemoteViews getLoadingView() {
