@@ -55,9 +55,11 @@ public class StepsActivity extends AppCompatActivity implements StepRecycleAdapt
         }
 
         Intent intent = getIntent();
-
+        String s = intent.getStringExtra(BaseInfo.INTENT_PREPARE);
+        Log.e(TAG,"intent s == > " + s);
         if (intent.hasExtra(BaseInfo.INTENT_PREPARE)) {
-            String s = intent.getStringExtra(BaseInfo.INTENT_PREPARE);
+             s = intent.getStringExtra(BaseInfo.INTENT_PREPARE);
+            Log.e(TAG,"go into intent and s =" + s);
             if (!ifUseFragment) {
                 prepareText.setText(s);
             }
@@ -68,6 +70,7 @@ public class StepsActivity extends AppCompatActivity implements StepRecycleAdapt
 
         if (intent.hasExtra(BaseInfo.INTENT_TITLE)) {
             label = intent.getStringExtra(BaseInfo.INTENT_TITLE);
+            Log.e(TAG,"go into intent and label = " + label);
             setTitle(label);
         } else {
             label = "video";
@@ -123,6 +126,11 @@ public class StepsActivity extends AppCompatActivity implements StepRecycleAdapt
         }
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        
+    }
 
     @Override
     public void onTimelineChanged(Timeline timeline, Object manifest) {
