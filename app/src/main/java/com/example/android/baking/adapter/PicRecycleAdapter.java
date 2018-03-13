@@ -35,11 +35,11 @@ public class PicRecycleAdapter extends RecyclerView.Adapter<PicRecycleAdapter.My
     private RecipeClickHandle recipeClickHandle;
     private Context context;
     private String prepareText;
-    private String label = "";
-    private ArrayList<RecipeStep> recipeStepsArrayList;
 
     public PicRecycleAdapter(RecipeClickHandle recipeClickHandle){
         this.recipeClickHandle = recipeClickHandle;
+        TakeValues.recipeArr.clear();
+        TakeValues.widgetArr.clear();
     }
 
     @Override
@@ -60,16 +60,12 @@ public class PicRecycleAdapter extends RecyclerView.Adapter<PicRecycleAdapter.My
         final String name = mCursor.getString(
                 mCursor.getColumnIndex(RecipeContract.RecipeInfo.COLUMN_NAME));
         holder.nameTextView.setText(name);
-        if(name != null){
-            label = name;
-        }
         if(position == 0){
             TakeValues.label = name;
 
         }
-        arrayList.add(name);
-        arrayList.add(position + "");
-        label = name;
+        arrayList.add(name);//index = 0
+        arrayList.add(position + "");//index = 1
 
         String number = mCursor.getString(
                 mCursor.getColumnIndex(RecipeContract.RecipeInfo.COLUMN_SERVINGS));
@@ -86,12 +82,9 @@ public class PicRecycleAdapter extends RecyclerView.Adapter<PicRecycleAdapter.My
         final String singleIngredientArr = FormRecipe.formIngredients(ingredients);
         holder.ingredientTextView.setText(singleIngredientArr);
         prepareText = singleIngredientArr;
-        String[] ss = singleIngredientArr.split(",");
-        for(int i=0;i<ss.length;i++){
-            arrayList.add(ss[i]);
-        }
+        arrayList.add(prepareText);//index = 2
 
-        TakeValues.widgetArr.add(arrayList);
+
 
         final String steps = mCursor.getString(
                 mCursor.getColumnIndex(RecipeContract.RecipeInfo.COLUMN_STEP));
@@ -100,7 +93,6 @@ public class PicRecycleAdapter extends RecyclerView.Adapter<PicRecycleAdapter.My
             @Override
             public void onClick(View v) {
 
-                recipeStepsArrayList = recipeSteps.getRecipeStepArrayList();
                 Intent intent = new Intent(context, StepsActivity.class);
                 intent.putExtra(BaseInfo.INTENT_LIST,recipeSteps);
                 intent.putExtra(BaseInfo.INTENT_TITLE,name);
@@ -108,7 +100,12 @@ public class PicRecycleAdapter extends RecyclerView.Adapter<PicRecycleAdapter.My
                 context.startActivity(intent);
             }
         });
-
+        TakeValues.recipeArr.add(recipeSteps);
+        String[] ss = singleIngredientArr.split(",");
+        for(int i=0;i<ss.length;i++){
+            arrayList.add(ss[i]);
+        }
+        TakeValues.widgetArr.add(arrayList);
     }
 
 
@@ -142,13 +139,7 @@ public class PicRecycleAdapter extends RecyclerView.Adapter<PicRecycleAdapter.My
         @Override
         public void onClick(View v) {
             int adapterPosition = getAdapterPosition();
-            mCursor.moveToPosition(adapterPosition);
-            label =  mCursor.getString(
-                    mCursor.getColumnIndex(RecipeContract.RecipeInfo.COLUMN_NAME));
-            String steps = mCursor.getString(
-                    mCursor.getColumnIndex(RecipeContract.RecipeInfo.COLUMN_STEP));
-            recipeStepsArrayList =  FormRecipe.addArrayList(steps).getRecipeStepArrayList();
-            recipeClickHandle.onClick(label,prepareText,recipeStepsArrayList,adapterPosition);
+            recipeClickHandle.onClick(adapterPosition);
         }
     }
 
@@ -158,6 +149,6 @@ public class PicRecycleAdapter extends RecyclerView.Adapter<PicRecycleAdapter.My
     }
 
     public interface RecipeClickHandle{
-        void onClick(String label, String prepareText, ArrayList<RecipeStep> recipeStepsArrayList,int position);
+        void onClick(int position);
     }
 }
