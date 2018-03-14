@@ -129,7 +129,7 @@ public class StepsActivity extends AppCompatActivity implements StepRecycleAdapt
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        
+
     }
 
     @Override

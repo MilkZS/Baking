@@ -46,9 +46,9 @@ public class BakingAppWidget extends AppWidgetProvider {
             PendingIntent pendingIntent = PendingIntent.getActivity(context,0,intentName,0);
             views.setOnClickPendingIntent(R.id.name_widget,pendingIntent);
 
-           // Intent intentBut = new Intent(BUTTON_ACTION);
-            //PendingIntent pendingIntentBut = PendingIntent.getBroadcast(context, R.id.change_but, intentBut, PendingIntent.FLAG_UPDATE_CURRENT);
-            //views.setOnClickPendingIntent(R.id.change_but,pendingIntentBut);
+            Intent intentBut = new Intent(BUTTON_ACTION);
+            PendingIntent pendingIntentBut = PendingIntent.getBroadcast(context, R.id.change_but, intentBut, PendingIntent.FLAG_UPDATE_CURRENT);
+            views.setOnClickPendingIntent(R.id.change_but,pendingIntentBut);
 
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }
@@ -73,6 +73,33 @@ public class BakingAppWidget extends AppWidgetProvider {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        if(intent.getAction().equals(BUTTON_ACTION)){
+            SharedPreferences sharedPreferences = context.getSharedPreferences(BaseInfo.PREFERENCE_WIDGET,Context.MODE_PRIVATE);
+            int po = sharedPreferences.getInt(BaseInfo.PREFERENCE_WIDGET_POSITION,0);
+            po ++;
+            if(po > TakeValues.widgetArr.size()){
+                po = 0;
+            }
+            RemoteViews views = new RemoteViews(
+                    context.getPackageName(),
+                    R.layout.baking_app_widget
+            );
+            String name = TakeValues.widgetArr.get(po).get(0);
+            views.setTextViewText(R.id.name_widget,name);
+            views.setRemoteAdapter(R.id.prepare_list_view_widget, intent);
+
+            Intent intentName = new Intent(context,StepsActivity.class);
+            intentName.putExtra(BaseInfo.INTENT_TITLE,name);
+            intentName.putExtra(BaseInfo.INTENT_LIST,TakeValues.recipeArr.get(po));
+            intentName.putExtra(BaseInfo.INTENT_PREPARE,TakeValues.widgetArr.get(po).get(2));
+            PendingIntent pendingIntent = PendingIntent.getActivity(context,0,intentName,0);
+            views.setOnClickPendingIntent(R.id.name_widget,pendingIntent);
+
+            AppWidgetManager manger = AppWidgetManager.getInstance(context);
+            ComponentName cn = new ComponentName(context,BakingAppWidget.class);
+            manger.updateAppWidget(cn,views);
+
+        }
         super.onReceive(context, intent);
     }
 }
