@@ -21,7 +21,8 @@ import com.example.android.baking.base.TakeValues;
  */
 public class BakingAppWidget extends AppWidgetProvider {
 
-    public static final String BUTTON_ACTION = "com.example.android.baking.click";
+    private String TAG = "BakingAppWidget";
+    public static final String BUTTON_ACTION = "com.example.android.baking";
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -47,6 +48,7 @@ public class BakingAppWidget extends AppWidgetProvider {
             views.setOnClickPendingIntent(R.id.name_widget,pendingIntent);
 
             Intent intentBut = new Intent(BUTTON_ACTION);
+            intentBut.setPackage(context.getPackageName());
             PendingIntent pendingIntentBut = PendingIntent.getBroadcast(context, R.id.change_but, intentBut, PendingIntent.FLAG_UPDATE_CURRENT);
             views.setOnClickPendingIntent(R.id.change_but,pendingIntentBut);
 
@@ -67,13 +69,16 @@ public class BakingAppWidget extends AppWidgetProvider {
 
     public static void sendRefreshBroadcast(Context context) {
         Intent intent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        intent.setPackage(context.getPackageName());
         intent.setComponent(new ComponentName(context, BakingAppWidget.class));
         context.sendBroadcast(intent);
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        Log.d(TAG,"action is --> " + intent.getAction());
         if(intent.getAction().equals(BUTTON_ACTION)){
+            Log.d(TAG,"action get == > " + intent.getAction());
             SharedPreferences sharedPreferences = context.getSharedPreferences(BaseInfo.PREFERENCE_WIDGET,Context.MODE_PRIVATE);
             int po = sharedPreferences.getInt(BaseInfo.PREFERENCE_WIDGET_POSITION,0);
             po ++;

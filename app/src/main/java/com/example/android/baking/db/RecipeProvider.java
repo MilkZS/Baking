@@ -21,6 +21,9 @@ public class RecipeProvider extends ContentProvider {
 
     private static final int CODE_RECIPE = 100;
     private static final int CODE_RECIPE_ID = 101;
+    private static final int CODE_MATERIAL = 102;
+    private static final int CODE_MATERIAL_ID = 103;
+
     private static UriMatcher uriMatcher = buildUriMatcher();
 
     @Override
@@ -58,6 +61,16 @@ public class RecipeProvider extends ContentProvider {
                         null
                         );
             } break;
+            case CODE_MATERIAL:{
+                cursor = recipeDBHelper.getReadableDatabase().query(
+                        RecipeContract.RecipeMaterial.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder);
+            }break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -98,6 +111,29 @@ public class RecipeProvider extends ContentProvider {
                 }
                 return rowId;
             }
+
+            case CODE_MATERIAL:{
+                recipeDBHelper.getWritableDatabase().beginTransaction();
+                try{
+                    for (ContentValues contentValues:values){
+                        long countId = recipeDBHelper.getWritableDatabase().insert(
+                                RecipeContract.RecipeMaterial.TABLE_NAME,
+                                null,
+                                contentValues
+                        );
+                        if(countId != -1){
+                            rowId ++;
+                        }
+                    }
+                    recipeDBHelper.getWritableDatabase().setTransactionSuccessful();
+                }finally {
+                    recipeDBHelper.getWritableDatabase().endTransaction();
+                }
+                if (rowId > 0){
+                    getContext().getContentResolver().notifyChange(uri,null);
+                }
+                return rowId;
+            }
         }
         return super.bulkInsert(uri, values);
     }
@@ -119,6 +155,10 @@ public class RecipeProvider extends ContentProvider {
                         RecipeContract.RecipeInfo.TABLE_NAME, selection, selectionArgs);
             }
             break;
+            case CODE_MATERIAL:{
+                rowId = recipeDBHelper.getWritableDatabase().delete(
+                        RecipeContract.RecipeMaterial.TABLE_NAME, selection, selectionArgs);
+            }break;
             default:
                 throw new UnsupportedOperationException("Un know uri :" + uri);
         }
@@ -149,6 +189,8 @@ public class RecipeProvider extends ContentProvider {
         final String authority = RecipeContract.CONTENT_AUTHORITY;
         matcher.addURI(authority, RecipeContract.RECIPE_INFO, CODE_RECIPE);
         matcher.addURI(authority, RecipeContract.RECIPE_INFO + "/#", CODE_RECIPE_ID);
+        matcher.addURI(authority, RecipeContract.RecipeMaterial.RECIPE_MATERIAL,CODE_MATERIAL);
+        matcher.addURI(authority, RecipeContract.RecipeMaterial.RECIPE_MATERIAL + "/#",CODE_MATERIAL_ID);
         return matcher;
     }
 }

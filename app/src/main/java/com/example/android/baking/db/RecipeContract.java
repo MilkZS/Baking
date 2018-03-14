@@ -18,9 +18,22 @@ public class RecipeContract {
     /** content://com.example.android.baking/recipe */
     public static final Uri CONTENT_BASE = CONTENT_BASE_URI.buildUpon().appendPath(RECIPE_INFO).build();
 
+    public static final class RecipeMaterial implements BaseColumns{
+
+        public static final String RECIPE_MATERIAL = "material";
+        public static final Uri CONTENT_BASE =
+                CONTENT_BASE_URI.buildUpon().appendPath(RECIPE_MATERIAL).build();
+
+        public static String TABLE_NAME = "recipe_material_table";
+
+        public static String COLUMN_ID = "recipe_id";
+        public static String COLUMN_MATERIAL = "recipe_material";
+    }
+
+
     public static final class RecipeInfo implements BaseColumns {
 
-        public static String TABLE_NAME = "recipe";
+        public static String TABLE_NAME = "recipe_table";
 
         public static String COLUMN_ID = "recipe_id";
         public static String COLUMN_NAME = "recipe_name";
@@ -56,5 +69,9 @@ public class RecipeContract {
 
     public static String buildSelect(){
         return RecipeInfo.COLUMN_JUDGE + "=1";
+    }
+
+    public static String buildSelectForMaterial(String sql){
+        return RecipeMaterial.COLUMN_ID + "=" + sql;
     }
 }

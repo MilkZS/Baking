@@ -23,7 +23,6 @@ public class ReadFromJsonString {
     public static String DIVIDE_TYPE = "_TYPE_";
     public static String DIVIDE_CONTENT = "_CONTENT_";
 
-    private static String QUERY_INGREDIENTS = "ingredients";
 
     public static ContentValues[] buildContentValuesForJson(String jsonString) {
         try {

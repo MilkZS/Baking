@@ -40,6 +40,10 @@
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
 
+            <intent-filter>
+                <action android:name="com.example.android.baking" />
+            </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/baking_app_widget_info" />

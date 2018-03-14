@@ -20,6 +20,7 @@ public class RecipeDBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(createTable());
+        db.execSQL(createTableMaterial());
     }
 
     private String createTable(){
@@ -34,9 +35,18 @@ public class RecipeDBHelper extends SQLiteOpenHelper {
                 + " ); ";
     }
 
+    private String createTableMaterial(){
+        return SQLBaseInfo.CREATE_TABLE + RecipeContract.RecipeMaterial.TABLE_NAME + " ( "
+                + RecipeContract.RecipeMaterial._ID + SQLBaseInfo.INT_PRIMARY_KEY + ","
+                + RecipeContract.RecipeMaterial.COLUMN_ID + ","
+                + RecipeContract.RecipeMaterial.COLUMN_MATERIAL
+                + " ); ";
+    }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(SQLBaseInfo.DROP_TABLE + RecipeContract.RecipeInfo.TABLE_NAME);
+        db.execSQL(SQLBaseInfo.DROP_TABLE + RecipeContract.RecipeMaterial.TABLE_NAME);
         onCreate(db);
     }
 }

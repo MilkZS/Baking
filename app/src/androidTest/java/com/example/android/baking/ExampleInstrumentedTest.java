@@ -61,9 +61,9 @@ public class ExampleInstrumentedTest {
                 .onChildView(ViewMatchers.withId(R.id.steps_button))  // item中子控件id
                 .perform(click());
 */
-        Espresso.onView(ViewMatchers.withId(R.id.recipe_recycle))
-                .perform(RecyclerViewActions.scrollToPosition(0));
-        Espresso.onView(ViewMatchers.withId(R.id.steps_button)).perform(click());
+        //Espresso.onView(ViewMatchers.withId(R.id.recipe_recycle))
+           //     .perform(RecyclerViewActions.scrollToPosition(0));
+        //Espresso.onView(ViewMatchers.withId(R.id.steps_button)).perform(click());
 
 
     }
