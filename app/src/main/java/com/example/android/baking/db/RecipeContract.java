@@ -27,7 +27,15 @@ public class RecipeContract {
         public static String TABLE_NAME = "recipe_material_table";
 
         public static String COLUMN_ID = "recipe_id";
+        public static String COLUMN_NAME = "recipe_name_material";
         public static String COLUMN_MATERIAL = "recipe_material";
+
+        public static String[] QUERY_MATERIAL = {
+                _ID,
+                COLUMN_ID,
+                COLUMN_NAME,
+                COLUMN_MATERIAL
+        };
     }
 
 
@@ -71,7 +79,7 @@ public class RecipeContract {
         return RecipeInfo.COLUMN_JUDGE + "=1";
     }
 
-    public static String buildSelectForMaterial(String sql){
-        return RecipeMaterial.COLUMN_ID + "=" + sql;
+    public static String buildSelectForMaterial(){
+        return RecipeMaterial.COLUMN_ID + "=?";
     }
 }

@@ -37,8 +37,11 @@ public interface BaseInfo {
     String ACTIVITY_VIDEO_POSITION = "activity_video_player_position";
     String ACTIVITY_POSITION = "video_position";
 
+    String PREFERENCE_WIDGET_NAME = "preference_widget_name";
     String PREFERENCE_WIDGET = "preference_widget";
-    String PREFERENCE_WIDGET_POSITION = "preference_widget_position";
+    String PREFERENCE_WIDGET_POSITION = "preference_widget_position_2";
+    String PREFERENCE_WIDGET_LENGTH = "preference_widget_length";
 
 
+    String ACTIVITY_POSITION_LAND = "activity_position";
 }

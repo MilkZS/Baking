@@ -1,6 +1,7 @@
 package com.example.android.baking;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -173,5 +174,11 @@ public class StepsActivity extends AppCompatActivity implements StepRecycleAdapt
         videoFragment.setRecipeStepArrayList(recipeStepArrayList);
         videoFragment.setPosition(position);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_video,videoFragment).commit();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+
+        super.onSaveInstanceState(outState);
     }
 }

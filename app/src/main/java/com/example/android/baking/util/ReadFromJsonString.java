@@ -11,6 +11,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 /**
  * Created by milkdz on 2018/2/23.
  */
@@ -46,7 +48,7 @@ public class ReadFromJsonString {
                         queryInfo(jsonObject, RecipeContract.QUERY_INGREDIENTS,
                                 BaseInfo.RECIPE_INGREDIENTS));
                 contentValues.put(RecipeContract.RecipeInfo.COLUMN_STEP,
-                        queryInfo(jsonObject,RecipeContract.QUERY_STEP,
+                        queryInfo(jsonObject, RecipeContract.QUERY_STEP,
                                 BaseInfo.RECIPE_STEP));
                 contentValues.put(RecipeContract.RecipeInfo.COLUMN_JUDGE, "1");
                 contentValuesArray[i] = contentValues;
@@ -58,7 +60,45 @@ public class ReadFromJsonString {
         return null;
     }
 
-    private static String queryInfo(JSONObject jsonObject, String[] QUERY_ARRAY,String query) {
+    public static ContentValues[] getContenValuesForMaterial(String jsonS) {
+        try {
+            JSONArray recipeArray = new JSONArray(jsonS);
+            ArrayList<ContentValues> arrayList = new ArrayList<>();
+            if (DBG) Log.d(TAG, "recipeArray = " + recipeArray);
+            JSONObject jsonObject;
+            for (int i = 0; i < recipeArray.length(); i++) {
+                jsonObject = recipeArray.getJSONObject(i);
+                String id = jsonObject.getString(BaseInfo.RECIPE_ID);
+                String name = jsonObject.getString(BaseInfo.RECIPE_NAME);
+                JSONArray jsonArray = jsonObject.getJSONArray(BaseInfo.RECIPE_INGREDIENTS);
+                for (int j = 0; j < jsonArray.length(); j++) {
+                    JSONObject sObject = jsonArray.getJSONObject(j);
+                    String s = "";
+
+                    for (int a = 0; a < RecipeContract.QUERY_INGREDIENTS.length; a++) {
+                        s = s + sObject.get(RecipeContract.QUERY_INGREDIENTS[a]) + " ";
+                    }
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put(RecipeContract.RecipeMaterial.COLUMN_ID, id);
+                    Log.i(TAG,"material id is " + id);
+                    Log.i(TAG,"material string is " + s);
+                    contentValues.put(RecipeContract.RecipeMaterial.COLUMN_MATERIAL, s);
+                    contentValues.put(RecipeContract.RecipeMaterial.COLUMN_NAME,name);
+                    arrayList.add(contentValues);
+                }
+            }
+            ContentValues[] contentValuesArray = new ContentValues[arrayList.size()];
+            for (int i = 0; i < arrayList.size(); i++) {
+                contentValuesArray[i] = arrayList.get(i);
+            }
+            return contentValuesArray;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private static String queryInfo(JSONObject jsonObject, String[] QUERY_ARRAY, String query) {
 
         try {
             JSONArray jsonArray = jsonObject.getJSONArray(query);
@@ -72,7 +112,7 @@ public class ReadFromJsonString {
                         sRe = sRe + DIVIDE_CONTENT + sObject.getString(QUERY_ARRAY[j]);
                     }
                 }
-                if(i != jsonArray.length() - 1){
+                if (i != jsonArray.length() - 1) {
                     sRe = sRe + DIVIDE_TYPE;
                 }
             }

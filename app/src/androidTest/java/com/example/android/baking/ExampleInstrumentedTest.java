@@ -9,6 +9,7 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.v7.widget.RecyclerView;
 
 import org.hamcrest.Matchers;
 import org.junit.Before;
@@ -18,6 +19,12 @@ import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.swipeDown;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withSpinnerText;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.anything;
 import static org.junit.Assert.*;
 
 
@@ -53,19 +60,7 @@ public class ExampleInstrumentedTest {
     public void button_click() throws Exception {
         mainActivity = mActivityRule.getActivity();
         //test recycle view
-        Espresso.onView(ViewMatchers.withId(R.id.recipe_recycle)).perform(RecyclerViewActions.actionOnItemAtPosition(1,click()));
-        /*
-        onData(Matchers.allOf())
-                .inAdapterView(ViewMatchers.withId(R.id.recipe_recycle)) // listview的id
-                .atPosition(1)                              // 所在位置
-                .onChildView(ViewMatchers.withId(R.id.steps_button))  // item中子控件id
-                .perform(click());
-*/
-        //Espresso.onView(ViewMatchers.withId(R.id.recipe_recycle))
-           //     .perform(RecyclerViewActions.scrollToPosition(0));
-        //Espresso.onView(ViewMatchers.withId(R.id.steps_button)).perform(click());
-
-
+        Espresso.onView(withId(R.id.recipe_recycle)).perform(RecyclerViewActions.actionOnItemAtPosition(1,click()));
     }
 
 }

@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.Preference;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -12,16 +11,15 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.example.android.baking.adapter.PicRecycleAdapter;
 import com.example.android.baking.base.BaseInfo;
-import com.example.android.baking.base.RecipeStep;
 import com.example.android.baking.base.TakeValues;
 import com.example.android.baking.db.RecipeContract;
 import com.example.android.baking.db.SQLBaseInfo;
 import com.example.android.baking.sync.RecipeThread;
 
-import java.util.ArrayList;
 
 /**
  * Created by milkdz on 2018/2/20.
@@ -30,6 +28,7 @@ import java.util.ArrayList;
 public class BakingMainActivity extends AppCompatActivity
         implements PicRecycleAdapter.RecipeClickHandle,LoaderManager.LoaderCallbacks<Cursor> {
 
+    private String TAG = "BakingMainActivity";
     private RecyclerView recyclerView;
     private PicRecycleAdapter picRecycleAdapter;
     private int mPosition = RecyclerView.NO_POSITION;
@@ -42,6 +41,8 @@ public class BakingMainActivity extends AppCompatActivity
         setContentView(R.layout.baking_main_activity);
 
         sharedPreferences = getSharedPreferences(BaseInfo.PREFERENCE_WIDGET,MODE_PRIVATE);
+
+        mPosition = sharedPreferences.getInt(BaseInfo.ACTIVITY_POSITION_LAND,0);
 
         String rowNumber = getResources().getString(R.string.card_view_col);
         if(rowNumber.equals("1")){
@@ -85,10 +86,33 @@ public class BakingMainActivity extends AppCompatActivity
 
     @Override
     public void onClick(int mPosition) {
-       SharedPreferences sharedPreferences = getSharedPreferences(BaseInfo.PREFERENCE_WIDGET,MODE_PRIVATE);
-       SharedPreferences.Editor editor = sharedPreferences.edit();
-       editor.putInt(BaseInfo.PREFERENCE_WIDGET_POSITION,mPosition);
-       editor.apply();
-       editor.commit();
     }
+
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+        Log.d(TAG,"onResume--mPosition : " + mPosition);
+        recyclerView.getLayoutManager().scrollToPosition(mPosition);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+
+        SharedPreferences sharedPreferences = getSharedPreferences(BaseInfo.PREFERENCE_WIDGET,MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        mPosition = ((GridLayoutManager)recyclerView.getLayoutManager()).findLastVisibleItemPosition();
+        editor.putInt(BaseInfo.ACTIVITY_POSITION_LAND,mPosition);
+        editor.apply();
+        editor.commit();
+        super.onSaveInstanceState(outState);
+
+    }
+
+
 }

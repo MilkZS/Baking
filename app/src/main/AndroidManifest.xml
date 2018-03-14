@@ -28,7 +28,7 @@
         <provider
             android:name=".db.RecipeProvider"
             android:authorities="com.example.android.baking"
-            android:exported="false" />
+            android:exported="true" />
 
         <activity android:name=".StepsActivity" />
         <activity android:name=".VideoActivity" />

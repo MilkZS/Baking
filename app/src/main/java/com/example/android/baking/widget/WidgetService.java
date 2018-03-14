@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
+import android.support.v4.content.CursorLoader;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
@@ -15,6 +16,7 @@ import com.example.android.baking.StepsActivity;
 import com.example.android.baking.base.BaseInfo;
 import com.example.android.baking.base.TakeValues;
 import com.example.android.baking.db.RecipeContract;
+import com.example.android.baking.db.SQLBaseInfo;
 import com.example.android.baking.util.FormRecipe;
 
 import java.lang.reflect.Array;
@@ -26,20 +28,11 @@ import java.util.ArrayList;
 
 public class WidgetService extends RemoteViewsService {
 
-    private int position = 0;
-    private SharedPreferences sharedPreferences;
 
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
-        sharedPreferences = getSharedPreferences(BaseInfo.PREFERENCE_WIDGET,MODE_PRIVATE);
-        if(sharedPreferences.contains(BaseInfo.PREFERENCE_WIDGET_POSITION)){
-            position = sharedPreferences.getInt(BaseInfo.PREFERENCE_WIDGET_POSITION,0);
-        }else{
-            position = 0;
-        }
-        Log.d("widget","onGetViewFactory");
-        ArrayList<String> arrayList = TakeValues.widgetArr.get(position);
-        return new RemoteViewFactory(this.getApplicationContext(),arrayList);
+        Log.e("widget", "onGetViewFactory");
+        return new RemoteViewFactory(this.getApplicationContext());
     }
 }
 
@@ -47,15 +40,14 @@ class RemoteViewFactory implements RemoteViewsService.RemoteViewsFactory {
 
     private String TAG = "Widget-RemoteViewFactory";
     private Context context;
-    private ArrayList<String> prepareList;
-    private int lenArr = 3;
-    private int po = 0;
+    private Cursor cursor;
+    private int po = 1;
+    SharedPreferences sharedPreferences;
 
-    public RemoteViewFactory(Context context,ArrayList<String> arrayList) {
+    public RemoteViewFactory(Context context) {
         this.context = context;
-        this.prepareList = arrayList;
-        SharedPreferences sharedPreferences = context.getSharedPreferences(BaseInfo.PREFERENCE_WIDGET,Context.MODE_PRIVATE);
-        po = sharedPreferences.getInt(BaseInfo.PREFERENCE_WIDGET_POSITION,0);
+        sharedPreferences = context.getSharedPreferences(BaseInfo.PREFERENCE_WIDGET, Context.MODE_PRIVATE);
+        po = sharedPreferences.getInt(BaseInfo.PREFERENCE_WIDGET_POSITION, 1);
     }
 
     @Override
@@ -65,33 +57,56 @@ class RemoteViewFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public void onDataSetChanged() {
-        if (prepareList != null) {
+        if (cursor != null) {
+            cursor.close();
         }
+
+        Uri uri = RecipeContract.RecipeMaterial.CONTENT_BASE;
+        String order = RecipeContract.RecipeMaterial._ID + SQLBaseInfo.SORT_AES;
+        cursor = context.getContentResolver().query(
+                uri,
+                RecipeContract.RecipeMaterial.QUERY_MATERIAL,
+                RecipeContract.buildSelectForMaterial(),
+                new String[]{po + ""},
+                order);
     }
 
     @Override
     public void onDestroy() {
+        if (cursor != null) {
+            cursor.close();
+        }
     }
 
     @Override
     public int getCount() {
-        Log.e(TAG,"getCount");
-       if(prepareList.size() == 0){
-           return 0;
-       }
-        return prepareList.size()-lenArr;
+        Log.e(TAG, "getCount");
+        if (cursor == null) {
+            Log.e(TAG, "getCount cursor is null");
+            return 0;
+        }
+        return cursor.getCount();
     }
 
     @Override
     public RemoteViews getViewAt(int position) {
-       // if (prepareList == null || prepareList.size() == 0) {
-       //     return null;
-      //  }
-        Log.e("widget","bind is here");
+        if (cursor == null){
+            return null;
+        }
+        cursor.moveToPosition(position);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        String name = cursor.getString(cursor.getColumnIndex(RecipeContract.RecipeMaterial.COLUMN_NAME));
+        editor.putString(BaseInfo.PREFERENCE_WIDGET_NAME,name);
+        editor.apply();
+        editor.commit();
+
+        Log.e("widget", "bind is here");
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_item_list);
-        views.setTextViewText(R.id.item_text_view,prepareList.get(position+lenArr));///prepareList.get(position));
-           return views;
+        views.setTextViewText(R.id.item_text_view, cursor.getString(cursor.getColumnIndex(RecipeContract.RecipeMaterial.COLUMN_MATERIAL)));///prepareList.get(position));
+        return views;
     }
+
     @Override
     public RemoteViews getLoadingView() {
         return null;

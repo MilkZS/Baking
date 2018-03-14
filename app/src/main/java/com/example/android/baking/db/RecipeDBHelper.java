@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class RecipeDBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "Recipe.db";
-    private static final int VERSION = 2;
+    private static final int VERSION = 3;
 
     public RecipeDBHelper(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
@@ -39,6 +39,7 @@ public class RecipeDBHelper extends SQLiteOpenHelper {
         return SQLBaseInfo.CREATE_TABLE + RecipeContract.RecipeMaterial.TABLE_NAME + " ( "
                 + RecipeContract.RecipeMaterial._ID + SQLBaseInfo.INT_PRIMARY_KEY + ","
                 + RecipeContract.RecipeMaterial.COLUMN_ID + ","
+                + RecipeContract.RecipeMaterial.COLUMN_NAME + ","
                 + RecipeContract.RecipeMaterial.COLUMN_MATERIAL
                 + " ); ";
     }
