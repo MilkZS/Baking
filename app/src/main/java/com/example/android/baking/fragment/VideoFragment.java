@@ -49,6 +49,7 @@ public class VideoFragment extends Fragment implements StepRecycleAdapter.VideoC
     private Context context;
     private boolean bool_land = false;
     private long playerPosition = 0;
+    private boolean ifPlayVideo = false;
 
     @Nullable
     @Override
@@ -81,6 +82,10 @@ public class VideoFragment extends Fragment implements StepRecycleAdapter.VideoC
 
     public void setPosition(int position) {
         this.position = position;
+    }
+
+    public void setIfPlayVideo(boolean ifPlayer){
+        this.ifPlayVideo = ifPlayer;
     }
 
     /**
@@ -126,7 +131,7 @@ public class VideoFragment extends Fragment implements StepRecycleAdapter.VideoC
             MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
                     context, userAgent), new DefaultExtractorsFactory(), null, null);
             mExoPlayer.prepare(mediaSource);
-            mExoPlayer.setPlayWhenReady(false);
+            mExoPlayer.setPlayWhenReady(ifPlayVideo);
         }
     }
 
