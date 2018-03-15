@@ -28,7 +28,6 @@ public class StepFragment extends Fragment implements StepRecycleAdapter.VideoCl
 
     private TextView prepareTextView;
     private String prepareText;
-    private String label;
     private ArrayList<RecipeStep> recipeStepsArrayList;
     private ChangePosition changePosition;
 
@@ -57,7 +56,6 @@ public class StepFragment extends Fragment implements StepRecycleAdapter.VideoCl
 
             prepareTextView = rootView.findViewById(R.id.prepare_text_view);
 
-            label = TakeValues.label;
             prepareText = TakeValues.prepareText;
 
             Log.d(TAG, "it is run in the step fragment");
