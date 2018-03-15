@@ -1,26 +1,19 @@
 package com.example.android.baking.widget;
 
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
-import android.support.v4.content.CursorLoader;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import com.example.android.baking.R;
-import com.example.android.baking.StepsActivity;
 import com.example.android.baking.base.BaseInfo;
-import com.example.android.baking.base.TakeValues;
 import com.example.android.baking.db.RecipeContract;
 import com.example.android.baking.db.SQLBaseInfo;
-import com.example.android.baking.util.FormRecipe;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 
 /**
  * Created by milkdz on 2018/3/12.
@@ -80,7 +73,7 @@ class RemoteViewFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public int getCount() {
-        Log.e(TAG, "getCount");
+        Log.d(TAG, "getCount");
         if (cursor == null) {
             Log.e(TAG, "getCount cursor is null");
             return 0;
@@ -101,7 +94,7 @@ class RemoteViewFactory implements RemoteViewsService.RemoteViewsFactory {
         editor.apply();
         editor.commit();
 
-        Log.e("widget", "bind is here");
+        Log.d(TAG, "bind is here");
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_item_list);
         views.setTextViewText(R.id.item_text_view, cursor.getString(cursor.getColumnIndex(RecipeContract.RecipeMaterial.COLUMN_MATERIAL)));///prepareList.get(position));
         return views;
