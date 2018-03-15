@@ -36,7 +36,7 @@ public class RecipeThread {
             @Override
             public void run() {
                 if (DBG && DBG_THREAD)Log.d(TAG,"RecipeThread initialize run into thread");
-                Uri uri = RecipeContract.CONTENT_BASE;
+                Uri uri = RecipeContract.RecipeInfo.CONTENT_BASE;
                 String[] projection = new String[]{RecipeContract.RecipeInfo.COLUMN_JUDGE};
 
                 Cursor cursor = context.getContentResolver().query(uri,projection,RecipeContract.buildSelect(),null,null);
