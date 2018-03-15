@@ -3,7 +3,6 @@ package com.example.android.baking.base;
 import com.google.android.exoplayer2.ExoPlayer;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * Created by milkdz on 2018/3/10.
@@ -12,10 +11,6 @@ import java.util.Map;
 public class TakeValues {
 
     public static boolean ifUseFragment = false;
-
-    public static ArrayList<ArrayList<String>> widgetArr = new ArrayList<>();
-    public static ArrayList<RecipeSteps> recipeArr = new ArrayList<>();
-
 
     /**  values for step */
     public static String prepareText = "";
