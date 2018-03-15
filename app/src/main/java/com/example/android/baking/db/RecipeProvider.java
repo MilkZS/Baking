@@ -187,8 +187,8 @@ public class RecipeProvider extends ContentProvider {
     public static UriMatcher buildUriMatcher() {
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         final String authority = RecipeContract.CONTENT_AUTHORITY;
-        matcher.addURI(authority, RecipeContract.RECIPE_INFO, CODE_RECIPE);
-        matcher.addURI(authority, RecipeContract.RECIPE_INFO + "/#", CODE_RECIPE_ID);
+        matcher.addURI(authority, RecipeContract.RecipeInfo.RECIPE_INFO, CODE_RECIPE);
+        matcher.addURI(authority, RecipeContract.RecipeInfo.RECIPE_INFO + "/#", CODE_RECIPE_ID);
         matcher.addURI(authority, RecipeContract.RecipeMaterial.RECIPE_MATERIAL,CODE_MATERIAL);
         matcher.addURI(authority, RecipeContract.RecipeMaterial.RECIPE_MATERIAL + "/#",CODE_MATERIAL_ID);
         return matcher;
