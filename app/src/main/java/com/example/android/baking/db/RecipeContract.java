@@ -13,10 +13,7 @@ public class RecipeContract {
 
     public static final String CONTENT_AUTHORITY = "com.example.android.baking";
     public static final Uri CONTENT_BASE_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
-    public static final String RECIPE_INFO = "recipe";
 
-    /** content://com.example.android.baking/recipe */
-    public static final Uri CONTENT_BASE = CONTENT_BASE_URI.buildUpon().appendPath(RECIPE_INFO).build();
 
     public static final class RecipeMaterial implements BaseColumns{
 
@@ -40,6 +37,10 @@ public class RecipeContract {
 
 
     public static final class RecipeInfo implements BaseColumns {
+        public static final String RECIPE_INFO = "recipe";
+
+        /** content://com.example.android.baking/recipe */
+        public static final Uri CONTENT_BASE = CONTENT_BASE_URI.buildUpon().appendPath(RECIPE_INFO).build();
 
         public static String TABLE_NAME = "recipe_table";
 
