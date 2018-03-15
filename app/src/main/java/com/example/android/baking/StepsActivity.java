@@ -1,19 +1,13 @@
 package com.example.android.baking;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.android.baking.adapter.StepRecycleAdapter;
 import com.example.android.baking.base.BaseInfo;
@@ -29,7 +23,6 @@ import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 
 import java.util.ArrayList;
-import java.util.EventListener;
 
 public class StepsActivity extends AppCompatActivity implements StepRecycleAdapter.VideoClick, ExoPlayer.EventListener,StepFragment.ChangePosition {
 
@@ -42,6 +35,8 @@ public class StepsActivity extends AppCompatActivity implements StepRecycleAdapt
     private StepFragment stepFragment;
     private VideoFragment videoFragment;
     private boolean ifUseFragment;
+    private long videoPosition = 0;
+    private boolean ifPlayer = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +75,6 @@ public class StepsActivity extends AppCompatActivity implements StepRecycleAdapt
 
             recipeSteps = (RecipeSteps) intent.getSerializableExtra(BaseInfo.INTENT_LIST);
             recipeStepArrayList = recipeSteps.getRecipeStepArrayList();
-           // TakeValues.recipeStepsArrayList = recipeStepArrayList;
             if (!ifUseFragment) {
                 RecyclerView recyclerView = findViewById(R.id.recipe_step_recycle);
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -91,24 +85,18 @@ public class StepsActivity extends AppCompatActivity implements StepRecycleAdapt
             }
         }
 
-        if (ifUseFragment && savedInstanceState == null) {
-            //if(stepFragment == null){
+        if (ifUseFragment) {
                 stepFragment = new StepFragment();
                 stepFragment.setRecipeStepsArrayList(recipeStepArrayList);
                 stepFragment.setChangePosition(this);
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.fragment_step, stepFragment).commit();
 
-
-            //}
-
-//            if(videoFragment == null){
             Log.e(TAG, "it is going to create VideoFragment");
             videoFragment = new VideoFragment();
             videoFragment.setRecipeStepArrayList(recipeStepArrayList);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_video, videoFragment).commit();
-            //          }
         }
 
     }
@@ -150,7 +138,7 @@ public class StepsActivity extends AppCompatActivity implements StepRecycleAdapt
 
     @Override
     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-
+        ifPlayer = playWhenReady;
     }
 
     @Override
@@ -173,6 +161,7 @@ public class StepsActivity extends AppCompatActivity implements StepRecycleAdapt
         VideoFragment videoFragment = new VideoFragment();
         videoFragment.setRecipeStepArrayList(recipeStepArrayList);
         videoFragment.setPosition(position);
+        videoFragment.setIfPlayVideo(ifPlayer);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_video,videoFragment).commit();
     }
 
