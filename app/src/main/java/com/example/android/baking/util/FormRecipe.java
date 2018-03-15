@@ -1,11 +1,9 @@
 package com.example.android.baking.util;
 
 import android.util.Log;
-import android.widget.TextView;
 
 import com.example.android.baking.base.RecipeStep;
 import com.example.android.baking.base.RecipeSteps;
-import com.example.android.baking.db.RecipeContract;
 
 import java.util.ArrayList;
 
