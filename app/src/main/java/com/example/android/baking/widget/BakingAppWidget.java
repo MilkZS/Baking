@@ -36,7 +36,6 @@ public class BakingAppWidget extends AppWidgetProvider {
             Intent intent = new Intent(context, WidgetService.class);
            // views.setPendingIntentTemplate();
             SharedPreferences sharedPreferences = context.getSharedPreferences(BaseInfo.PREFERENCE_WIDGET,Context.MODE_PRIVATE);
-            int po = sharedPreferences.getInt(BaseInfo.PREFERENCE_WIDGET_POSITION,1);
             String name = sharedPreferences.getString(BaseInfo.PREFERENCE_WIDGET_NAME,"null");
             views.setTextViewText(R.id.name_widget,name);
             views.setRemoteAdapter(R.id.prepare_list_view_widget, intent);
