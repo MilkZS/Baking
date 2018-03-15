@@ -50,27 +50,27 @@ public class StepsActivity extends AppCompatActivity implements StepRecycleAdapt
             prepareText = findViewById(R.id.prepare_text_view);
         }
 
+        TakeValues.eventListener = this;
+
+        /** get info from intent */
         Intent intent = getIntent();
-        String s = intent.getStringExtra(BaseInfo.INTENT_PREPARE);
-        Log.e(TAG,"intent s == > " + s);
         if (intent.hasExtra(BaseInfo.INTENT_PREPARE)) {
-             s = intent.getStringExtra(BaseInfo.INTENT_PREPARE);
-            Log.e(TAG,"go into intent and s =" + s);
+            String s = intent.getStringExtra(BaseInfo.INTENT_PREPARE);
+            Log.d(TAG,"go into intent and s =" + s);
             if (!ifUseFragment) {
                 prepareText.setText(s);
             }
             TakeValues.prepareText = s;
         }
 
-        TakeValues.eventListener = this;
-
         if (intent.hasExtra(BaseInfo.INTENT_TITLE)) {
             label = intent.getStringExtra(BaseInfo.INTENT_TITLE);
-            Log.e(TAG,"go into intent and label = " + label);
+            Log.d(TAG,"go into intent and label = " + label);
             setTitle(label);
         } else {
             label = "video";
         }
+
         if (intent.hasExtra(BaseInfo.INTENT_LIST)) {
 
             recipeSteps = (RecipeSteps) intent.getSerializableExtra(BaseInfo.INTENT_LIST);
@@ -83,6 +83,10 @@ public class StepsActivity extends AppCompatActivity implements StepRecycleAdapt
                 StepRecycleAdapter stepRecycleAdapter = new StepRecycleAdapter(recipeStepArrayList, this);
                 recyclerView.setAdapter(stepRecycleAdapter);
             }
+        }
+
+        if(savedInstanceState != null && ifUseFragment){
+
         }
 
         if (ifUseFragment) {

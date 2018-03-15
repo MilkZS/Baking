@@ -84,6 +84,10 @@ public class VideoFragment extends Fragment implements StepRecycleAdapter.VideoC
         this.position = position;
     }
 
+    public void setVideoPosition(long position){
+        this.playerPosition = position;
+    }
+
     public void setIfPlayVideo(boolean ifPlayer){
         this.ifPlayVideo = ifPlayer;
     }
@@ -186,6 +190,7 @@ public class VideoFragment extends Fragment implements StepRecycleAdapter.VideoC
     private void releasePlayer(){
         if(mExoPlayer != null){
             playerPosition = mExoPlayer.getCurrentPosition();
+            TakeValues.videoPosition = playerPosition;
             mExoPlayer.stop();
             mExoPlayer.release();
             mExoPlayer = null;
