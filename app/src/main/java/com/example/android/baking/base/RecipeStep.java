@@ -16,13 +16,6 @@ public class RecipeStep implements Serializable {
     public RecipeStep() {
     }
 
-    public RecipeStep(String id, String sVideo, String sDescription, String sTitle) {
-        this.id = id;
-        this.sVideo = sVideo;
-        this.sDescription = sDescription;
-        this.sTitle = sTitle;
-    }
-
     public String getId() {
         return id;
     }
