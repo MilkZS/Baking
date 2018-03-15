@@ -51,7 +51,7 @@ public class VideoActivity extends AppCompatActivity implements ExoPlayer.EventL
     private TextView videoTextView;
     private boolean bool_land = false;
     private long playerPosition = 0;
-
+    private boolean ifPlayVideo = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,6 +83,9 @@ public class VideoActivity extends AppCompatActivity implements ExoPlayer.EventL
             }
             if(savedInstanceState.containsKey(BaseInfo.ACTIVITY_VIDEO_POSITION)){
                 playerPosition = savedInstanceState.getLong(BaseInfo.ACTIVITY_VIDEO_POSITION);
+            }
+            if(savedInstanceState.containsKey(BaseInfo.ACTIVITY_VIDEO_STATUS)){
+                ifPlayVideo = savedInstanceState.getBoolean(BaseInfo.ACTIVITY_VIDEO_STATUS);
             }
         }else {
 
@@ -123,7 +126,7 @@ public class VideoActivity extends AppCompatActivity implements ExoPlayer.EventL
             MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
                     this, userAgent), new DefaultExtractorsFactory(), null, null);
             mExoPlayer.prepare(mediaSource);
-            mExoPlayer.setPlayWhenReady(false);
+            mExoPlayer.setPlayWhenReady(ifPlayVideo);
         }
     }
 
@@ -239,6 +242,7 @@ public class VideoActivity extends AppCompatActivity implements ExoPlayer.EventL
         }
         outState.putInt(BaseInfo.ACTIVITY_POSITION,position);
         outState.putLong(BaseInfo.ACTIVITY_VIDEO_POSITION,playerPosition);
+        outState.putBoolean(BaseInfo.ACTIVITY_VIDEO_STATUS,ifPlayVideo);
         super.onSaveInstanceState(outState);
     }
 
@@ -259,7 +263,11 @@ public class VideoActivity extends AppCompatActivity implements ExoPlayer.EventL
 
     @Override
     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-
+        if(playWhenReady){
+            Log.e(TAG,"player is run here and playWhenReady is true");
+        }
+        ifPlayVideo = playWhenReady;
+        Log.e(TAG,"player status is " + playbackState);
     }
 
     @Override

@@ -34,6 +34,7 @@ public interface BaseInfo {
     String INTENT_LIST_INDEX = "recipe_step_list_index";
     String INTENT_PREPARE = "recipe_prepare";
 
+    String ACTIVITY_VIDEO_STATUS = "activity_video_player_status";
     String ACTIVITY_VIDEO_POSITION = "activity_video_player_position";
     String ACTIVITY_POSITION = "video_position";
 
