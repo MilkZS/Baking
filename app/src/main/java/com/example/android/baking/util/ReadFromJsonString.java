@@ -1,7 +1,6 @@
 package com.example.android.baking.util;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.util.Log;
 
 import com.example.android.baking.base.BaseInfo;
@@ -29,9 +28,7 @@ public class ReadFromJsonString {
     public static ContentValues[] buildContentValuesForJson(String jsonString) {
         try {
             Log.d(TAG, "jsonString is : == > " + jsonString);
-            //JSONArray jsonArray = new JSONArray(jsonString);
-            // JSONObject recipeJson = new JSONObject(jsonString);
-            JSONArray recipeArray = new JSONArray(jsonString);//recipeJson.getJSONArray("");
+            JSONArray recipeArray = new JSONArray(jsonString);
             if (DBG) Log.d(TAG, "recipeArray = " + recipeArray);
             ContentValues[] contentValuesArray = new ContentValues[recipeArray.length()];
             JSONObject jsonObject;
