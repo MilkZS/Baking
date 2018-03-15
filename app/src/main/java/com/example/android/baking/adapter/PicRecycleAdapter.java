@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.example.android.baking.R;
 import com.example.android.baking.StepsActivity;
 import com.example.android.baking.base.BaseInfo;
-import com.example.android.baking.base.RecipeStep;
 import com.example.android.baking.base.RecipeSteps;
 import com.example.android.baking.base.TakeValues;
 import com.example.android.baking.db.RecipeContract;
@@ -38,8 +37,6 @@ public class PicRecycleAdapter extends RecyclerView.Adapter<PicRecycleAdapter.My
 
     public PicRecycleAdapter(RecipeClickHandle recipeClickHandle){
         this.recipeClickHandle = recipeClickHandle;
-        TakeValues.recipeArr.clear();
-        TakeValues.widgetArr.clear();
     }
 
     @Override
@@ -55,7 +52,6 @@ public class PicRecycleAdapter extends RecyclerView.Adapter<PicRecycleAdapter.My
     public void onBindViewHolder(MyPicRecycleHolder holder, int position) {
         mCursor.moveToPosition(position);
 
-        ArrayList<String> arrayList = new ArrayList<>();
 
         final String name = mCursor.getString(
                 mCursor.getColumnIndex(RecipeContract.RecipeInfo.COLUMN_NAME));
@@ -64,8 +60,6 @@ public class PicRecycleAdapter extends RecyclerView.Adapter<PicRecycleAdapter.My
             TakeValues.label = name;
 
         }
-        arrayList.add(name);//index = 0
-        arrayList.add(position + "");//index = 1
 
         String number = mCursor.getString(
                 mCursor.getColumnIndex(RecipeContract.RecipeInfo.COLUMN_SERVINGS));
@@ -82,9 +76,6 @@ public class PicRecycleAdapter extends RecyclerView.Adapter<PicRecycleAdapter.My
         final String singleIngredientArr = FormRecipe.formIngredients(ingredients);
         holder.ingredientTextView.setText(singleIngredientArr);
         prepareText = singleIngredientArr;
-        arrayList.add(prepareText);//index = 2
-
-
 
         final String steps = mCursor.getString(
                 mCursor.getColumnIndex(RecipeContract.RecipeInfo.COLUMN_STEP));
@@ -100,12 +91,6 @@ public class PicRecycleAdapter extends RecyclerView.Adapter<PicRecycleAdapter.My
                 context.startActivity(intent);
             }
         });
-        TakeValues.recipeArr.add(recipeSteps);
-        String[] ss = singleIngredientArr.split(",");
-        for(int i=0;i<ss.length;i++){
-            arrayList.add(ss[i]);
-        }
-        TakeValues.widgetArr.add(arrayList);
     }
 
 
