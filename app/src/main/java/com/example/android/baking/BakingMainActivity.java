@@ -67,7 +67,7 @@ public class BakingMainActivity extends AppCompatActivity
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Uri foodUri = RecipeContract.RecipeInfo.CONTENT_BASE;
         String order = RecipeContract.RecipeInfo.COLUMN_ID + SQLBaseInfo.SORT_AES;
-        return new CursorLoader(this,foodUri,RecipeContract.RECIPE_MAIN_UI_COL,null,null,order);
+        return new CursorLoader(this,foodUri,new String[]{" * "},null,null,order);
     }
 
     @Override
