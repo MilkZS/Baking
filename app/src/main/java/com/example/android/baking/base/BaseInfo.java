@@ -45,4 +45,11 @@ public interface BaseInfo {
 
 
     String ACTIVITY_POSITION_LAND = "activity_position";
+
+    String ACTIVITY_STEP_STATUS_RECIPE = "activity_step_status_recipe";
+    String ACTIVITY_STEP_LABEL = "activity_step_label";
+    String ACTIVITY_STEP_VIDEO_POSITION = "activity_step_video_position";
+    String ACTIVITY_STEP_VIDEO_PLAY = "activity_step_video_play";
+    String ACTIVITY_STEP_LIST_POSITION = "activity_step_list_position";
+
 }
