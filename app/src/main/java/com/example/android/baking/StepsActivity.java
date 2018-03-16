@@ -30,7 +30,9 @@ public class StepsActivity extends AppCompatActivity implements StepRecycleAdapt
     private ArrayList<RecipeStep> recipeStepArrayList;
     private RecipeSteps recipeSteps;
     private String label;
-    private TextView prepareText;
+    private TextView prepareTextView;
+
+    private int listPosition = 0;
     private FragmentTransaction FT;
     private StepFragment stepFragment;
     private VideoFragment videoFragment;
@@ -47,18 +49,25 @@ public class StepsActivity extends AppCompatActivity implements StepRecycleAdapt
             setContentView(R.layout.activity_step_video_pad);
         } else {
             setContentView(R.layout.activity_steps);
-            prepareText = findViewById(R.id.prepare_text_view);
+            prepareTextView = findViewById(R.id.prepare_text_view);
         }
 
         TakeValues.eventListener = this;
-
+        if(savedInstanceState != null && ifUseFragment){
+            videoPosition = savedInstanceState.getLong(BaseInfo.ACTIVITY_STEP_VIDEO_POSITION);
+            ifPlayer = savedInstanceState.getBoolean(BaseInfo.ACTIVITY_STEP_VIDEO_PLAY);
+            recipeStepArrayList = ((RecipeSteps)savedInstanceState
+                    .getSerializable(BaseInfo.ACTIVITY_STEP_STATUS_RECIPE)).getRecipeStepArrayList();
+            listPosition = savedInstanceState.getInt(BaseInfo.ACTIVITY_STEP_LIST_POSITION);
+            label = savedInstanceState.getString(BaseInfo.ACTIVITY_STEP_LABEL);
+        }
         /** get info from intent */
         Intent intent = getIntent();
         if (intent.hasExtra(BaseInfo.INTENT_PREPARE)) {
             String s = intent.getStringExtra(BaseInfo.INTENT_PREPARE);
             Log.d(TAG,"go into intent and s =" + s);
             if (!ifUseFragment) {
-                prepareText.setText(s);
+                prepareTextView.setText(s);
             }
             TakeValues.prepareText = s;
         }
@@ -68,7 +77,7 @@ public class StepsActivity extends AppCompatActivity implements StepRecycleAdapt
             Log.d(TAG,"go into intent and label = " + label);
             setTitle(label);
         } else {
-            label = "video";
+            setTitle(label);
         }
 
         if (intent.hasExtra(BaseInfo.INTENT_LIST)) {
@@ -85,20 +94,21 @@ public class StepsActivity extends AppCompatActivity implements StepRecycleAdapt
             }
         }
 
-        if(savedInstanceState != null && ifUseFragment){
 
-        }
 
         if (ifUseFragment) {
-                stepFragment = new StepFragment();
-                stepFragment.setRecipeStepsArrayList(recipeStepArrayList);
-                stepFragment.setChangePosition(this);
-                getSupportFragmentManager().beginTransaction()
-                        .add(R.id.fragment_step, stepFragment).commit();
+            stepFragment = new StepFragment();
+            stepFragment.setRecipeStepsArrayList(recipeStepArrayList);
+            stepFragment.setChangePosition(this);
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_step, stepFragment).commit();
 
             Log.e(TAG, "it is going to create VideoFragment");
             videoFragment = new VideoFragment();
             videoFragment.setRecipeStepArrayList(recipeStepArrayList);
+            videoFragment.setIfPlayVideo(ifPlayer);
+            videoFragment.setVideoPosition(videoPosition);
+            videoFragment.setPosition(listPosition);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_video, videoFragment).commit();
         }
@@ -162,6 +172,7 @@ public class StepsActivity extends AppCompatActivity implements StepRecycleAdapt
 
     @Override
     public void change(int position) {
+        listPosition = position;
         VideoFragment videoFragment = new VideoFragment();
         videoFragment.setRecipeStepArrayList(recipeStepArrayList);
         videoFragment.setPosition(position);
@@ -172,6 +183,11 @@ public class StepsActivity extends AppCompatActivity implements StepRecycleAdapt
     @Override
     protected void onSaveInstanceState(Bundle outState) {
 
+        outState.putInt(BaseInfo.ACTIVITY_STEP_LIST_POSITION,listPosition);
+        outState.putBoolean(BaseInfo.ACTIVITY_STEP_VIDEO_PLAY,ifPlayer);
+        outState.putLong(BaseInfo.ACTIVITY_STEP_VIDEO_POSITION,TakeValues.videoPosition);
+        outState.putString(BaseInfo.ACTIVITY_STEP_LABEL,label);
+        outState.putSerializable(BaseInfo.ACTIVITY_STEP_STATUS_RECIPE,recipeSteps);
         super.onSaveInstanceState(outState);
     }
 }
