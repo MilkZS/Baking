@@ -30,7 +30,8 @@
             android:authorities="com.example.android.baking"
             android:exported="true" />
 
-        <activity android:name=".StepsActivity" />
+        <activity android:name=".StepsActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"/>
         <activity android:name=".VideoActivity" />
 
         <service android:name=".widget.WidgetService"
