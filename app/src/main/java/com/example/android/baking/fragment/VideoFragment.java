@@ -62,6 +62,8 @@ public class VideoFragment extends Fragment implements StepRecycleAdapter.VideoC
         view.findViewById(R.id.video_next_but).setVisibility(View.GONE);
         view.findViewById(R.id.video_last_but).setVisibility(View.GONE);
 
+        recipeStepArrayList = TakeValues.recipeStepArrayList;
+
         if(savedInstanceState != null){
             if(savedInstanceState.containsKey(BaseInfo.ACTIVITY_VIDEO_POSITION)){
                 playerPosition = savedInstanceState.getLong(BaseInfo.ACTIVITY_VIDEO_POSITION);
