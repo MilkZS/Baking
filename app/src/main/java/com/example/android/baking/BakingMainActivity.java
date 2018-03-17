@@ -47,7 +47,7 @@ public class BakingMainActivity extends AppCompatActivity
         String rowNumber = getResources().getString(R.string.card_view_col);
         if(rowNumber.equals("1")){
             TakeValues.ifUseFragment = false;
-        }else if(rowNumber.equals("3")){
+        }else if(rowNumber.equals("3") || rowNumber.equals("2")){
             TakeValues.ifUseFragment = true;
         }
 
