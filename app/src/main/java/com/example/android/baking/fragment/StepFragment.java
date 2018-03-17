@@ -74,7 +74,9 @@ public class StepFragment extends Fragment implements StepRecycleAdapter.VideoCl
     @Override
     public void onClick(int position) {
         Log.d(TAG,"it is click in fragment");
+        TakeValues.ifChange = true;
         changePosition.change(position);
+
     }
 
     public void setChangePosition(ChangePosition changePosition) {
