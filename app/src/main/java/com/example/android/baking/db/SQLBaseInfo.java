@@ -10,11 +10,8 @@ public interface SQLBaseInfo {
 
     String INT_PRIMARY_KEY = " INTEGER PRIMARY KEY AUTOINCREMENT ";
 
-    String TEXT_NO_NULL = " TEXT NOT NULL ";
-
     String DROP_TABLE = " DROP TABLE IF EXISTS ";
 
     String SORT_AES = " ASC ";
 
-    String OR = " OR ";
 }
