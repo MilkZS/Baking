@@ -20,8 +20,6 @@ import com.example.android.baking.base.TakeValues;
 import com.example.android.baking.db.RecipeContract;
 import com.example.android.baking.util.FormRecipe;
 
-import java.util.ArrayList;
-
 /**
  * Created by milkdz on 2018/2/28.
  */
